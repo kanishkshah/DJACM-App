@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher1_round"
         android:supportsRtl="true"
         tools:replace="android:icon"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:name=".OfflineClass">
         <activity android:name=".Activity.DetailedEventActivity"></activity>
         <!--
              Set color used with incoming notification messages. This is used when no color is set for the incoming
