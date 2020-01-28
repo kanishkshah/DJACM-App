@@ -6,22 +6,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.imbuegen.alumniapp.R;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
-public class CompanyListAdapter extends ArrayAdapter<CompanyModel> {
+
+public class CompanyListAdapter extends ArrayAdapter<CompanyModel> implements Filterable{
     private Activity context;
     private List<CompanyModel> companyList;
+    private List<CompanyModel> companyListAll;
 
     public CompanyListAdapter(Activity context, List<CompanyModel> companyList)
     {
         super(context,R.layout.company_list_item,companyList);
         this.context = context;
         this.companyList = companyList;
+        companyListAll=new ArrayList<>(companyList);
     }
 
 
@@ -40,4 +48,46 @@ public class CompanyListAdapter extends ArrayAdapter<CompanyModel> {
 
         return listItemView;
     }
+
+    @NonNull
+    @Override
+    public Filter getFilter() {
+        return exampleFilter;
+    }
+
+    private Filter exampleFilter=new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            List<CompanyModel>filteredList= new ArrayList<>();
+
+            if(charSequence==NULL||charSequence.length()==0){
+
+                filteredList.addAll(companyListAll);
+            }else{
+                String input=charSequence.toString().toLowerCase().trim();
+
+                for(CompanyModel companyModel: companyListAll){
+                    String company=companyModel.getCompanyName();
+
+                    if(company.toLowerCase().contains(input)){
+                        filteredList.add(companyModel);
+                    }
+                }
+            }
+            FilterResults results=new FilterResults();
+            results.values=filteredList;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+
+        companyList.clear();
+        companyList.addAll((List)filterResults.values);
+        notifyDataSetChanged();
+        }
+    };
+
+
 }
+

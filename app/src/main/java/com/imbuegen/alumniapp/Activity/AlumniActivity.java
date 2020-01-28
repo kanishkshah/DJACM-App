@@ -3,6 +3,7 @@ package com.imbuegen.alumniapp.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.Menu;
 import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -55,6 +56,7 @@ public class AlumniActivity extends BaseActivity {
 
 
         deptRef = database.getReference("Departments").child(str1);
+        deptRef.keepSynced(true);
         DatabaseReference companyRef = deptRef.child("Companies");
         DatabaseReference alumniref=companyRef.child(str2);
         DatabaseReference alumniref2=alumniref.child("Alumnis");
@@ -98,6 +100,7 @@ public class AlumniActivity extends BaseActivity {
 
 
     }
+
 
     private void exitForAlumnis() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

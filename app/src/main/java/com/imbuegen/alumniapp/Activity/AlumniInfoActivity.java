@@ -110,6 +110,7 @@ public class AlumniInfoActivity extends BaseActivity {
 
                 databaseReference.child("questions").push().setValue(new QuestionsModel(question,""));
 
+                databaseReference.keepSynced(true);
                 Toast.makeText(AlumniInfoActivity.this, "Question Asked", Toast.LENGTH_SHORT).show();
 
             }
