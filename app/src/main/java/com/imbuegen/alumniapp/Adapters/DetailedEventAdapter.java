@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.github.chrisbanes.photoview.PhotoView;
 import com.imbuegen.alumniapp.Models.EventMember;
 import com.imbuegen.alumniapp.R;
 import com.squareup.picasso.Picasso;
@@ -34,8 +35,8 @@ public class DetailedEventAdapter extends RecyclerView.Adapter<DetailedEventAdap
 
         EventMember m = list.get(i);
 
-        ImageView iv = viewHolder.itemView.findViewById(R.id.Eventmember_image);
-
+        //ImageView iv = viewHolder.itemView.findViewById(R.id.Eventmember_image);
+        PhotoView iv = (PhotoView) viewHolder.itemView.findViewById(R.id.Eventmember_image);
 
         if(m.getPhotoUrl() != null && !m.getPhotoUrl().isEmpty())
             Picasso.get().load(m.getPhotoUrl()).into(iv);
