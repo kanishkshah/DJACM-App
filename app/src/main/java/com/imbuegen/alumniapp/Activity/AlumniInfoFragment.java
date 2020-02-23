@@ -1,12 +1,19 @@
 package com.imbuegen.alumniapp.Activity;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -18,60 +25,73 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.gson.Gson;
 import com.imbuegen.alumniapp.Adapters.QuestionsAdapter;
 
 import com.imbuegen.alumniapp.Models.AlumniModel;
 import com.imbuegen.alumniapp.Models.QuestionsModel;
+import com.imbuegen.alumniapp.NestedFragmentListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.Iterator;
 
 import ru.dimorinny.floatingtextbutton.FloatingTextButton;import com.imbuegen.alumniapp.R;
 
+import static android.content.Context.MODE_PRIVATE;
 
-public class AlumniInfoActivity extends BaseActivity {
 
+public class AlumniInfoFragment extends Fragment {
     public static final String ALUMNI_OBJ = "qwe";
-
-
     TextView nameTextView;
     TextView dateJoinTextView;
     TextView companyTextView;
-
     ImageView profileImage;
-
-
     FloatingTextButton askQuestionButton;
-
     ListView questionsListView;
     QuestionsAdapter adapter;
-
-
     AlumniModel mAlumni;
+    Gson gson=new Gson();
     private StorageReference mStorage;
+SharedPreferences prefs;
+SharedPreferences.Editor editor;
+    NestedFragmentListener listener;
+    public void backPressed() {
+        editor=getContext().getSharedPreferences("SwitchTo", Context.MODE_PRIVATE).edit();
+        editor.putString("goto","Alumni");
+        editor.commit();
 
+        listener.onSwitchToNextFragment();
+    }
+    public AlumniInfoFragment()
+    {}
+    @SuppressLint("ValidFragment")
+    public AlumniInfoFragment(NestedFragmentListener listener)
+    {
+        this.listener=listener;
+    }
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        setActivity(this);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.mNoActionBar);
-        setContentView(R.layout.activity_alumni_info);
+        getActivity().setTheme(R.style.mNoActionBar);
 
-        LayoutInflater inflater = getLayoutInflater();
         View profileLayout    = inflater.inflate(R.layout.profile_view, null);
+        View v = inflater.inflate(R.layout.activity_alumni_info, null);
+
         nameTextView = profileLayout.findViewById(R.id.alumniName_tv);
         companyTextView =  profileLayout.findViewById(R.id.companyName_tv);
-        questionsListView = findViewById(R.id.list);
-        askQuestionButton = findViewById(R.id.ask_qustion_bt);
+        questionsListView = v.findViewById(R.id.list);
+        askQuestionButton = v.findViewById(R.id.ask_qustion_bt);
 
         profileImage = profileLayout.findViewById(R.id.profile_image);
 
 
-        mAlumni = (AlumniModel) getIntent().getSerializableExtra(ALUMNI_OBJ);
+        prefs= getActivity().getSharedPreferences("Alumniinfo",MODE_PRIVATE);
+
+        mAlumni= gson.fromJson(prefs.getString("ALUMNI_OBJ","xyz"),AlumniModel.class);
         nameTextView.setText(mAlumni.getAlumniName());
         companyTextView.setText(mAlumni.getCompany());
 
-        adapter = new QuestionsAdapter(mAlumni.getQuestionsList(),getApplicationContext());
+        adapter = new QuestionsAdapter(mAlumni.getQuestionsList(),getActivity());
 
         questionsListView.setAdapter(adapter);
 
@@ -93,12 +113,12 @@ public class AlumniInfoActivity extends BaseActivity {
 
         mStorage = FirebaseStorage.getInstance().getReference();
         getProfileImage();
-
+return v;
     }
 
     private void showDialog() {
-        final AlertDialog.Builder alert = new AlertDialog.Builder(AlumniInfoActivity.this);
-        final EditText edittext = new EditText(AlumniInfoActivity.this);
+        final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        final EditText edittext = new EditText(getActivity());
         alert.setMessage("Ask Question");
         alert.setView(edittext);
         alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
@@ -109,8 +129,8 @@ public class AlumniInfoActivity extends BaseActivity {
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(mAlumni.getDatabaseReferencePath());
 
                 databaseReference.child("questions").push().setValue(new QuestionsModel(question,""));
-
-                Toast.makeText(AlumniInfoActivity.this, "Question Asked", Toast.LENGTH_SHORT).show();
+                databaseReference.keepSynced(true);
+                Toast.makeText(getActivity(), "Question Asked", Toast.LENGTH_SHORT).show();
 
             }
         });

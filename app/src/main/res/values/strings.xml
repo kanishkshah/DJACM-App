@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DJ ACM</string>
+    <string name="app_name">ACM</string>
     <string name="title_activity_events">EventsActivity</string>
     <string name="title_activity_alumni_login">Sign in</string>
     <!-- Strings related to login -->

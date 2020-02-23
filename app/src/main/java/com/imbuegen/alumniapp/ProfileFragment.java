@@ -1,7 +1,9 @@
 package com.imbuegen.alumniapp;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -52,7 +54,7 @@ public class ProfileFragment extends Fragment {
     private ListView mListViewAlumniSide;
     private StorageReference mStorage;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-
+SharedPreferences prefs;
 
     String path;
 
@@ -72,13 +74,16 @@ public class ProfileFragment extends Fragment {
 
         mStorage = FirebaseStorage.getInstance().getReference();
 
-        if (getArguments()!=null) {
-             path = getArguments().getString("path");
-             uid = FirebaseAuth.getInstance().getUid();
-        }
+//        if (getArguments()!=null) {
+//             path = getArguments().getString("path");
+//             uid = FirebaseAuth.getInstance().getUid();
+//        }
+        prefs=getActivity().getSharedPreferences("fragmentargs", Context.MODE_PRIVATE);
+       //TODO: resolve path issues
+        path=prefs.getString("path","/Departments/Computers/Companies/Adobe%20Inc/Alumnis/1");
+        uid =prefs.getString("uid","");
 
 
-        getActivity().setTitle("Profile");
 
 
         getProfileImage();
@@ -108,7 +113,7 @@ public class ProfileFragment extends Fragment {
     public void onResume() {
         super.onResume();
         getDataUsingUrl();
-        getProfileImage();
+       getProfileImage();
     }
 
 
@@ -167,9 +172,9 @@ public class ProfileFragment extends Fragment {
 
         Log.d("TAG", "getDataUsingUrl: I am at getData");
 
-
+//TODO:resolve path
         String url = "https://alumniapp-21db1.firebaseio.com";
-
+        path="/Departments/Computers/Companies/Adobe%20Inc/Alumnis/1";
         String modPath = path.replace("%20"," ");
         String fmodPath = modPath.replace("%26","&");
 

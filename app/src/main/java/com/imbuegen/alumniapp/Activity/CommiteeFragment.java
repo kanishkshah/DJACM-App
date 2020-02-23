@@ -1,11 +1,18 @@
 package com.imbuegen.alumniapp.Activity;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.imbuegen.alumniapp.Adapters.CommitteeAdapter;
 import com.imbuegen.alumniapp.Models.CommitteeMember;
@@ -19,25 +26,21 @@ import su.j2e.rvjoiner.RvJoiner;import com.imbuegen.alumniapp.R;
 
 import static android.support.v7.widget.RecyclerView.HORIZONTAL;
 
-public class CommiteeActivity extends BaseActivity {
+public class CommiteeFragment extends Fragment {
 
 
     RecyclerView recyclerView;
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setActivity(this);
-        setContentView(R.layout.activity_commitee);
-
-        setTitle("Committee");
-
-        recyclerView = findViewById(R.id.member_rv);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    View v=inflater.inflate(R.layout.activity_commitee, null);
+    recyclerView = v.findViewById(R.id.member_rv);
+    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         init();
 
-        BottomNavigationView navigation = findViewById(R.id.navigation);
-        navigation.getMenu().findItem(R.id.navigation_committee).setCheckable(true).setChecked(true);
 
+        return v;
 
     }
 
@@ -45,7 +48,7 @@ public class CommiteeActivity extends BaseActivity {
 
         List<CommitteeMember> core = new ArrayList<>();
 
-        DividerItemDecoration itemDecor = new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL);
+        DividerItemDecoration itemDecor = new DividerItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL);
 
         //core.add(new CommitteeMember(R.mipmap.hod,"Dr. Prof. Narendra Shekokar","ACM Convenor"));
         //core.add(new CommitteeMember(R.mipmap.aruna_maam,"Prof. Aruna Gawde","ACM Co-ordinator"));
@@ -77,11 +80,11 @@ public class CommiteeActivity extends BaseActivity {
         //coComm.add(new CommitteeMember(R.mipmap.jash_amin, "Nishay Madhani", " "));
         //rvJoiner.add(new JoinableLayout(R.layout.header));
 
-        rvJoiner.add(new JoinableAdapter(new CommitteeAdapter(co,this)));
+        rvJoiner.add(new JoinableAdapter(new CommitteeAdapter(co,getContext())));
 
         rvJoiner.add(new JoinableLayout(R.layout.divider));
 
-        rvJoiner.add(new JoinableAdapter(new CommitteeAdapter(core,this)));
+        rvJoiner.add(new JoinableAdapter(new CommitteeAdapter(core,getContext())));
 
 //        rvJoiner.add(new JoinableLayout(R.layout.divider_co));
 //        rvJoiner.add(new JoinableAdapter(new CommitteeAdapter(coComm,this)));

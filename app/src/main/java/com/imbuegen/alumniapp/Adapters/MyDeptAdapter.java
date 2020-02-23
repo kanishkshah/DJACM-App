@@ -2,7 +2,11 @@ package com.imbuegen.alumniapp.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +14,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.imbuegen.alumniapp.Activity.CompanyActivity;
+import com.imbuegen.alumniapp.Activity.BaseActivity;
+import com.imbuegen.alumniapp.Activity.CompanyFragment;
+import com.imbuegen.alumniapp.Activity.DepartmentsFragment;
+import com.imbuegen.alumniapp.NestedFragmentListener;
 import com.imbuegen.alumniapp.R;
 import com.imbuegen.alumniapp.Models.Department;
 import java.util.ArrayList;
@@ -18,9 +25,11 @@ import java.util.ArrayList;
 public class MyDeptAdapter extends RecyclerView.Adapter<MyDeptAdapter.ViewHolder> {
     private Context context;
     private ArrayList<Department> deptList;
-
-    public MyDeptAdapter(Context context, ArrayList<Department> deptList) {
+    NestedFragmentListener listener;
+    SharedPreferences.Editor editor;
+    public MyDeptAdapter(Context context, ArrayList<Department> deptList,NestedFragmentListener listener) {
         this.context = context;
+        this.listener=listener;
         this.deptList = deptList;
     }
 
@@ -46,9 +55,23 @@ public class MyDeptAdapter extends RecyclerView.Adapter<MyDeptAdapter.ViewHolder
             @Override
             public void onClick(View v) {
                 String selectedDeptName = deptList.get(i).getName();
-                Intent companyActivityIntent = new Intent(context,CompanyActivity.class);
-                companyActivityIntent.putExtra("deptName",selectedDeptName);
-                context.startActivity(companyActivityIntent);
+//                Intent companyActivityIntent = new Intent(context,CompanyActivity.class);
+//                companyActivityIntent.putExtra("deptName",selectedDeptName);
+//                context.startActivity(companyActivityIntent);
+                editor=context.getSharedPreferences("DeptAdaptorToCompanyFrag",Context.MODE_PRIVATE).edit();
+                editor.clear();
+                editor.putString("deptname",selectedDeptName);
+                editor.commit();
+                editor=context.getSharedPreferences("SwitchTo",Context.MODE_PRIVATE).edit();
+                editor.putString("goto","Comp");
+                editor.commit();
+                listener.onSwitchToNextFragment();
+//                Fragment fg=new CompanyFragment();
+//                activity.getSupportFragmentManager().beginTransaction().add(R.id.studentviewpager,fg).commit();
+//                Bundle args=new Bundle();
+//                args.putString("deptName",selectedDeptName);
+//                fg.setArguments(args);
+
             }
         });
 

@@ -24,12 +24,12 @@ public class MainActivity extends BaseActivity {
 
         initNotification();
 
-        Intent intent1 = new Intent(MainActivity.this, DepartmentsActivity.class);
+        Intent intent1 = new Intent(MainActivity.this, BaseActivity.class);
         Intent intent2 = new Intent(MainActivity.this, RegistrationActivity.class);
 
 
-        intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         boolean isAlumni = SFHandler.getString(getSharedPreferences("Auth",MODE_PRIVATE),SFHandler.USER_KEY).equals("Alumni");
 
