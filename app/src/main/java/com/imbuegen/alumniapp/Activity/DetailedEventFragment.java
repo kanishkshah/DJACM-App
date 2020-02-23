@@ -27,6 +27,7 @@ import su.j2e.rvjoiner.RvJoiner;
 
 public class DetailedEventFragment extends Fragment {
     SharedPreferences gt;
+    SharedPreferences.Editor editor;
     String eventName ="";
     DetailedEventAdapter adapter;
     RecyclerView recyclerView;
@@ -37,6 +38,13 @@ public class DetailedEventFragment extends Fragment {
         this.listener=listener;
 
 
+    }
+    public void backPressed() {
+        editor=getContext().getSharedPreferences("SwitchTo", Context.MODE_PRIVATE).edit();
+        editor.putString("goto","Event");
+        editor.commit();
+
+        listener.onSwitchToNextFragment();
     }
 
     @Override

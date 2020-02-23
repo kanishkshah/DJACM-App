@@ -124,12 +124,12 @@ SharedPreferences.Editor alumniargs;
                     companyModelList.add(companyModel);
                 }
 
+                if(getActivity()!=null) {
+                    adapter = new CompanyListAdapter(getActivity(), companyModelList);
 
-                 adapter = new CompanyListAdapter(getActivity(),companyModelList);
 
-
-                listViewComapny.setAdapter(adapter);
-                listViewComapny.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    listViewComapny.setAdapter(adapter);
+                }listViewComapny.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 

@@ -16,7 +16,8 @@
         tools:replace="android:icon"
         android:theme="@style/AppTheme"
         android:name=".Activity.OfflineClass">
-        <!--
+
+          <!--
              Set color used with incoming notification messages. This is used when no color is set for the incoming
              notification message. See README(https://goo.gl/6BKBk7) for more.
         -->
@@ -58,10 +59,7 @@
             </intent-filter>
         </service>
 
-        <activity
-            android:name=".Activity.EventsActivity"
-            android:label="@string/title_activity_events"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".Activity.AlumniLoginActivity"
             android:label="@string/title_activity_alumni_login"

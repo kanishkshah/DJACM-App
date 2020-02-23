@@ -64,6 +64,11 @@ public class StudentViewPagerAdaptor extends FragmentPagerAdapter {
                             .commit();
                     EventFrag = new DetailedEventFragment(listener);
                     break;
+                case "Event":editor.clear().commit();
+                    fm.beginTransaction().remove(EventFrag)
+                            .commit();
+                    EventFrag = new EventsFragment(listener);
+                    break;
             }
 
             notifyDataSetChanged();

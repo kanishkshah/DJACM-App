@@ -74,35 +74,32 @@ public void setActivity(Activity a) {
     setUpNavigation();
 
     }
-    public void onBackPressed()
-    {
-    if(viewPager.getCurrentItem()==0)
-    {
-        if(adapter.getItem(0) instanceof CompanyFragment)
-        {
-            ((CompanyFragment) adapter.getItem(0)).backPressed();
+    public void onBackPressed() {
+        if (viewPager.getCurrentItem() == 0) {
+            if (adapter.getItem(0) instanceof CompanyFragment) {
+                ((CompanyFragment) adapter.getItem(0)).backPressed();
 
-        }
-        else if(adapter.getItem(0) instanceof AlumniFragment)
-        {
-            ((AlumniFragment) adapter.getItem(0)).backPressed();
+            } else if (adapter.getItem(0) instanceof AlumniFragment) {
+                ((AlumniFragment) adapter.getItem(0)).backPressed();
 
-        }
-        else if(adapter.getItem(0) instanceof AlumniInfoFragment)
-        {
-            ((AlumniInfoFragment) adapter.getItem(0)).backPressed();
+            } else if (adapter.getItem(0) instanceof AlumniInfoFragment) {
+                ((AlumniInfoFragment) adapter.getItem(0)).backPressed();
 
-        }
+            } else if (adapter.getItem(0) instanceof DepartmentsFragment) {
+                finish();
 
-        else if(adapter.getItem(0) instanceof DepartmentsFragment)
-        {
-            finish();
+            }
+        } else if (viewPager.getCurrentItem() == 1) {
+            if (adapter.getItem(1) instanceof DetailedEventFragment) {
+                ((DetailedEventFragment) adapter.getItem(1)).backPressed();
 
+            }
+            else if (adapter.getItem(1) instanceof EventsFragment) {
+                finish();
+
+            }
         }
     }
-    }
-
-
 //    private boolean loadFragment(Fragment fragment)
 //    {
 //        if (fragment != null)

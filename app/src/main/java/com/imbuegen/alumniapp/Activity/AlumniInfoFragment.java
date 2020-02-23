@@ -129,7 +129,7 @@ return v;
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(mAlumni.getDatabaseReferencePath());
 
                 databaseReference.child("questions").push().setValue(new QuestionsModel(question,""));
-                databaseReference.keepSynced(true);
+              databaseReference.keepSynced(true);
                 Toast.makeText(getActivity(), "Question Asked", Toast.LENGTH_SHORT).show();
 
             }
