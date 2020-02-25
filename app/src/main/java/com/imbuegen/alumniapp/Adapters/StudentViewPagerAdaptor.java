@@ -1,11 +1,11 @@
 package com.imbuegen.alumniapp.Adapters;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.widget.Toast;
-
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.ViewGroup;
 import com.imbuegen.alumniapp.Activity.AlumniFragment;
 import com.imbuegen.alumniapp.Activity.AlumniInfoFragment;
 import com.imbuegen.alumniapp.Activity.CommiteeFragment;
@@ -17,9 +17,7 @@ import com.imbuegen.alumniapp.NestedFragmentListener;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class StudentViewPagerAdaptor extends FragmentPagerAdapter {
-    //TODO:perform backtracking
-    //TODO: solve nested fragments load issue
+public class StudentViewPagerAdaptor extends FragmentStatePagerAdapter {
     FragmentManager fm;
     Context context;
     Fragment Department,EventFrag;
@@ -38,6 +36,8 @@ public class StudentViewPagerAdaptor extends FragmentPagerAdapter {
                     fm.beginTransaction().remove(Department)
                             .commit();
                     editor.clear().commit();
+
+
                     Department = new CompanyFragment(listener);
                     break;
                 case "Dept":
@@ -74,6 +74,8 @@ public class StudentViewPagerAdaptor extends FragmentPagerAdapter {
             notifyDataSetChanged();
         }
     }
+
+
     public StudentViewPagerAdaptor(FragmentManager fm, Context context) {
         super(fm);
         this.fm=fm;
@@ -108,22 +110,22 @@ public class StudentViewPagerAdaptor extends FragmentPagerAdapter {
     @Override
     public int getItemPosition(Object object)
     {
-        if (object instanceof DepartmentsFragment &&
-                Department instanceof CompanyFragment) {
-            return POSITION_NONE;
-        }
-        else if (object instanceof CompanyFragment &&
-                Department instanceof DepartmentsFragment) {
-            return POSITION_NONE;
-        }
-        else if (object instanceof DetailedEventFragment &&
-                EventFrag instanceof EventsFragment) {
-            return POSITION_NONE;
-        }
-        else if (object instanceof EventsFragment &&
-                EventFrag instanceof DetailedEventFragment) {
-            return POSITION_NONE;
-        }
-        return POSITION_UNCHANGED;
+//        if (object instanceof DepartmentsFragment &&
+//                Department instanceof CompanyFragment) {
+//            return POSITION_NONE;
+//        }
+//        else if (object instanceof CompanyFragment &&
+//                Department instanceof DepartmentsFragment) {
+//            return POSITION_NONE;
+//        }
+//        else if (object instanceof DetailedEventFragment &&
+//                EventFrag instanceof EventsFragment) {
+//            return POSITION_NONE;
+//        }
+//        else if (object instanceof EventsFragment &&
+//                EventFrag instanceof DetailedEventFragment) {
+//            return POSITION_NONE;
+//        }
+        return POSITION_NONE;
     }
 }

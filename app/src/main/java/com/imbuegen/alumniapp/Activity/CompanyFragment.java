@@ -2,6 +2,7 @@ package com.imbuegen.alumniapp.Activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +32,7 @@ import com.imbuegen.alumniapp.Adapters.CompanyModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.imbuegen.alumniapp.Adapters.StudentViewPagerAdaptor;
 import com.imbuegen.alumniapp.NestedFragmentListener;
 import com.imbuegen.alumniapp.R;
 
@@ -59,6 +62,8 @@ SharedPreferences.Editor alumniargs;
     public CompanyFragment(NestedFragmentListener listener)
     {
         this.listener=listener;
+
+
     }
        public void backPressed() {
            editor=getContext().getSharedPreferences("SwitchTo", Context.MODE_PRIVATE).edit();
@@ -70,8 +75,9 @@ SharedPreferences.Editor alumniargs;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {View v= inflater.inflate(R.layout.activity_company,null);
-        listViewComapny = (ListView) v.findViewById(R.id.listViewCompany);
+    {
+        View v= inflater.inflate(R.layout.activity_company,null);
+    listViewComapny = (ListView) v.findViewById(R.id.listViewCompany);
         setHasOptionsMenu(true);
         companyModelList = new ArrayList<>();
         deptname=getActivity().getSharedPreferences("DeptAdaptorToCompanyFrag", MODE_PRIVATE);

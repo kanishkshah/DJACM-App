@@ -61,7 +61,7 @@ public void setActivity(Activity a) {
 
                 navigation.getMenu().getItem(position).setChecked(true);
                 prevMenuItem = navigation.getMenu().getItem(position);
-                setTitle(navigation.getMenu().getItem(position).getTitle());
+               setTitle(navigation.getMenu().getItem(position).getTitle());
 
 
             }
