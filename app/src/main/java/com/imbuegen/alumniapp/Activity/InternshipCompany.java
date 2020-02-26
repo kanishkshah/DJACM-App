@@ -30,7 +30,7 @@ public class InternshipCompany extends BaseActivity {
         internshipCompanyAdapter=new InternshipCompanyAdapter(this,getInternshipCompanyList());
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
-        navigation.getMenu().findItem(R.id.navigation_internship).setCheckable(true).setChecked(true);
+        //navigation.getMenu().findItem(R.id.navigation_internship).setCheckable(true).setChecked(true);
 
         mRecyclerView.setAdapter(internshipCompanyAdapter);
 
