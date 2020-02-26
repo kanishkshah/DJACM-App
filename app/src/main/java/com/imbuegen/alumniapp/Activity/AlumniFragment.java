@@ -1,11 +1,17 @@
 package com.imbuegen.alumniapp.Activity;
-
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.view.Menu;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -20,36 +26,51 @@ import com.imbuegen.alumniapp.Models.QuestionsModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.imbuegen.alumniapp.NestedFragmentListener;
 import com.imbuegen.alumniapp.R;
 import com.imbuegen.alumniapp.Service.SFHandler;
 
-public class AlumniActivity extends BaseActivity {
+import static android.content.Context.MODE_PRIVATE;
+
+public class AlumniFragment extends Fragment {
 
     //Displaying List of Alumnis
-
+    NestedFragmentListener listener;
     ListView listViewAlumni;
     List<AlumniModel> AlumniModelList;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference deptRef ;//=database.getReference("Departments").child(fbDeptKey);
-
-
+    DatabaseReference deptRef ;
+    //=database.getReference("Departments").child(fbDeptKey);
+    SharedPreferences args;
+SharedPreferences.Editor editor;
     //DatabaseReference companyRef = deptRef.child("Companies");
 
+public AlumniFragment()
+{}
+@SuppressLint("ValidFragment")
+public AlumniFragment(NestedFragmentListener listener)
+{
+    this.listener=listener;
+}
+
+    public void backPressed() {
+        editor=getContext().getSharedPreferences("SwitchTo", Context.MODE_PRIVATE).edit();
+        editor.putString("goto","Comp");
+        editor.commit();
+
+        listener.onSwitchToNextFragment();
+    }
+@Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        setActivity(this);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_alumni_list);
-
-
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.activity_alumni_list, null);
         exitForAlumnis();
+        listViewAlumni = v.findViewById(R.id.listViewAlumni);
 
-        listViewAlumni = findViewById(R.id.listViewAlumni);
-
-        Bundle gt=getIntent().getExtras();
-        final String str1=gt.getString("DeptName");
-        final String str2=gt.getString("CompName");
+        args=getActivity().getSharedPreferences("AlumniDet",MODE_PRIVATE);
+        final String str1=args.getString("DeptName","EXTC");
+        final String str2=args.getString("CompName","Infosys");
 
 
         AlumniModelList = new ArrayList<>();
@@ -60,8 +81,7 @@ public class AlumniActivity extends BaseActivity {
         DatabaseReference companyRef = deptRef.child("Companies");
         DatabaseReference alumniref=companyRef.child(str2);
         DatabaseReference alumniref2=alumniref.child("Alumnis");
-
-        setTitle(str2);
+        getActivity().setTitle(str2);
 
 
 
@@ -87,7 +107,7 @@ public class AlumniActivity extends BaseActivity {
                 }
 
 
-                AlumniListAdapter adapter = new AlumniListAdapter(AlumniActivity.this,AlumniModelList);
+                AlumniListAdapter adapter = new AlumniListAdapter(getActivity(),AlumniModelList,listener);
                 listViewAlumni.setAdapter(adapter);
 
             }
@@ -99,17 +119,19 @@ public class AlumniActivity extends BaseActivity {
         });
 
 
+        return v;
     }
+
 
 
     private void exitForAlumnis() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        if(user == null ||  SFHandler.getString(getSharedPreferences("Auth",MODE_PRIVATE),SFHandler.USER_KEY).equals("Alumni")) {
+        if(user == null ||  SFHandler.getString(getActivity().getSharedPreferences("Auth",MODE_PRIVATE),SFHandler.USER_KEY).equals("Alumni")) {
 
             FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(this,LoginActivity.class));
-            finish();
+            startActivity(new Intent(getActivity(),LoginActivity.class));
+            //finish();
 
         }
     }

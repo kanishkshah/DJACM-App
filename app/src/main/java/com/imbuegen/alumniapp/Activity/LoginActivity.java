@@ -3,6 +3,7 @@ package com.imbuegen.alumniapp.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -15,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;import com.imbuegen.alumniapp.R;
 import com.squareup.picasso.Picasso;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 123;
     private static final int RC_SIGN_IN_ALUMNI = 123;
@@ -70,7 +71,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void goToStudentScreen() {
-        Intent i = new Intent(this,DepartmentsActivity.class);
+        Intent i = new Intent(this,BaseActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
         finish();

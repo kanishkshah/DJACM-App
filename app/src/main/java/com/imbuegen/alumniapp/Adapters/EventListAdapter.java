@@ -1,7 +1,9 @@
 package com.imbuegen.alumniapp.Adapters;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.imbuegen.alumniapp.Activity.DetailedEventActivity;
-import com.imbuegen.alumniapp.Models.EventMember;
+import com.imbuegen.alumniapp.NestedFragmentListener;
 import com.imbuegen.alumniapp.R;
 
 import com.imbuegen.alumniapp.Models.EventModel;
@@ -22,11 +23,13 @@ public class EventListAdapter extends ArrayAdapter<EventModel> {
 
     private Activity context;
     private List<EventModel> data;
-
-    public EventListAdapter(Activity context, List<EventModel> alumniList) {
+    NestedFragmentListener listener;
+    SharedPreferences.Editor editor;
+    public EventListAdapter(Activity context, List<EventModel> alumniList, NestedFragmentListener listener) {
         super(context,R.layout.event_list,alumniList);
         this.context = context;
         this.data = alumniList;
+        this.listener=listener;
     }
 
 
@@ -58,11 +61,19 @@ public class EventListAdapter extends ArrayAdapter<EventModel> {
                 }
 
 
+                editor=context.getSharedPreferences("SwitchTo", Context.MODE_PRIVATE).edit();
+                editor.putString("goto","DetEvent");
+                editor.commit();
+                editor=context.getSharedPreferences("EventInfo", Context.MODE_PRIVATE).edit();
+                editor.putString("name",eventName);
+                editor.putString("body", data.get(position).getBody());
+                editor.commit();
+                listener.onSwitchToNextFragment();
 
-                Intent i = new Intent(context,DetailedEventActivity.class);
-                i.putExtra("name",eventName);
-                i.putExtra("body", data.get(position).getBody());
-                context.startActivity(i);
+//                Intent i = new Intent(context,DetailedEventActivity.class);
+//                i.putExtra("name",eventName);
+//                i.putExtra("body", data.get(position).getBody());
+//                context.startActivity(i);
             }
         });
 

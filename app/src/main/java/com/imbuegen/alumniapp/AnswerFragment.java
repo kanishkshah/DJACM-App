@@ -1,9 +1,12 @@
 package com.imbuegen.alumniapp;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,6 +43,7 @@ public class AnswerFragment extends Fragment {
     String uid;
 
     String path;
+    SharedPreferences prefs;
 
     @Nullable
     @Override
@@ -47,23 +51,23 @@ public class AnswerFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_answer, null);
 
-        if (getArguments() != null) {
-            path = getArguments().getString("path");
-            uid = getArguments().getString("uid");
-        }
+//        if (getArguments() != null) {
+//            path = getArguments().getString("path");
+//            uid = getArguments().getString("uid");
+//        }
+        prefs=getActivity().getSharedPreferences("fragmentargs", Context.MODE_PRIVATE);
+        path=prefs.getString("path","/Departments/Computers/Companies/Adobe%20Inc/Alumnis/1");
+        uid =prefs.getString("uid","");
         try {
+           // TODO:Resolve path
+            //changed path to /Departments/Computers/Companies/Adobe%20Inc/Alumnis/1
+            //"/Departments/Computers/Companies/Adobe%20Inc/Alumnis/1"
             path =URLDecoder.decode( path, "UTF-8" );
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             Toast.makeText(getActivity(), "No Path Specified", Toast.LENGTH_SHORT).show();
             return null;
         }
-
-
-        getActivity().setTitle("Answer Questions");
-
-
-
 
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
         progressBar = v.findViewById(R.id.progress_circular);
@@ -87,9 +91,7 @@ public class AnswerFragment extends Fragment {
     }
 
 
-
     public void getUnansweredList() {
-
         DatabaseReference questionRef = database.getReference(path)
                                         .child("questions");
 
