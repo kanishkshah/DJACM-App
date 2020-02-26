@@ -66,6 +66,10 @@ abstract class BaseActivity extends AppCompatActivity {
                 } else if(menuItem.getItemId() == R.id.navigation_committee) {
                     startActivity(new Intent(activity, CommiteeActivity.class));
                     finish();
+                }else if(menuItem.getItemId()==R.id.navigation_internship){
+                    startActivity(new Intent(activity, InternshipCompany.class));
+                    finish();
+
                 }
                 else {startActivity(new Intent(activity,DepartmentsActivity.class));finish();}
 

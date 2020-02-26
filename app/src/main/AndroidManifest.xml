@@ -8,15 +8,19 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".OfflineClass"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher1"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher1_round"
         android:supportsRtl="true"
-        tools:replace="android:icon"
         android:theme="@style/AppTheme"
-        android:name=".OfflineClass">
-        <activity android:name=".Activity.DetailedEventActivity"></activity>
+        tools:replace="android:icon">
+        <activity android:name=".Activity.InternshipDetails"
+            android:parentActivityName=".Activity.InternshipCompany">
+        </activity>
+        <activity android:name=".Activity.InternshipCompany" />
+        <activity android:name=".Activity.DetailedEventActivity" />
         <!--
              Set color used with incoming notification messages. This is used when no color is set for the incoming
              notification message. See README(https://goo.gl/6BKBk7) for more.
