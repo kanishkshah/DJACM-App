@@ -16,8 +16,12 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.imbuegen.alumniapp.Adapters.AluminiViewPagerAdaptor;
 import com.imbuegen.alumniapp.Adapters.StudentViewPagerAdaptor;
+import com.imbuegen.alumniapp.IfFragment;
 import com.imbuegen.alumniapp.Models.CommitteeMember;
 import com.imbuegen.alumniapp.R;
+import com.imbuegen.alumniapp.Screen1Fragment;
+import com.imbuegen.alumniapp.Screen2Fragment;
+
 public class BaseActivity extends AppCompatActivity {
     BottomNavigationView navigation;
     public static int itemID ;
@@ -99,6 +103,20 @@ public void setActivity(Activity a) {
 
             }
         }
+        else if (viewPager.getCurrentItem() == 3) {
+            if (adapter.getItem(3) instanceof Screen1Fragment) {
+                ((Screen1Fragment) adapter.getItem(3)).backPressed();
+
+            }
+           else if (adapter.getItem(3) instanceof Screen2Fragment ){
+                ((Screen2Fragment) adapter.getItem(3)).backPressed();
+
+            }
+            else if (adapter.getItem(3) instanceof IfFragment) {
+                finish();
+
+            }
+        }
     }
 //    private boolean loadFragment(Fragment fragment)
 //    {
@@ -139,6 +157,9 @@ public void setActivity(Activity a) {
                 if (menuItem.getItemId() == R.id.navigation_committee) {
                     //fragment = adapter.getItem(2);
                     viewPager.setCurrentItem(2);
+                }
+                if (menuItem.getItemId() == R.id.navigation_IF) {
+                    viewPager.setCurrentItem(3);
                 }
                 return false;            //loadFragment(fragment);
             }

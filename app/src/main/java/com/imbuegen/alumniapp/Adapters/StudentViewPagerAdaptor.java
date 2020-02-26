@@ -13,14 +13,17 @@ import com.imbuegen.alumniapp.Activity.CompanyFragment;
 import com.imbuegen.alumniapp.Activity.DepartmentsFragment;
 import com.imbuegen.alumniapp.Activity.DetailedEventFragment;
 import com.imbuegen.alumniapp.Activity.EventsFragment;
+import com.imbuegen.alumniapp.IfFragment;
 import com.imbuegen.alumniapp.NestedFragmentListener;
+import com.imbuegen.alumniapp.Screen1Fragment;
+import com.imbuegen.alumniapp.Screen2Fragment;
 
 import static android.content.Context.MODE_PRIVATE;
 
 public class StudentViewPagerAdaptor extends FragmentStatePagerAdapter {
     FragmentManager fm;
     Context context;
-    Fragment Department,EventFrag;
+    Fragment Department,EventFrag,IF;
     FragmentListener listener = new FragmentListener();
     SharedPreferences switchTo;
     SharedPreferences.Editor editor;
@@ -69,6 +72,21 @@ public class StudentViewPagerAdaptor extends FragmentStatePagerAdapter {
                             .commit();
                     EventFrag = new EventsFragment(listener);
                     break;
+                case "screen1":editor.clear().commit();
+                    fm.beginTransaction().remove(IF)
+                            .commit();
+                    IF = new Screen1Fragment(listener);
+                    break;
+                case "screen2":editor.clear().commit();
+                    fm.beginTransaction().remove(IF)
+                            .commit();
+                    IF = new Screen2Fragment(listener);
+                    break;
+                case "IF":editor.clear().commit();
+                    fm.beginTransaction().remove(IF)
+                            .commit();
+                    IF = new IfFragment(listener);
+                    break;
             }
 
             notifyDataSetChanged();
@@ -98,6 +116,10 @@ public class StudentViewPagerAdaptor extends FragmentStatePagerAdapter {
 
             case 2:
                 return new CommiteeFragment();
+            case 3:
+                if(IF==null)
+                    IF= new IfFragment(listener);
+                return IF;
 
             default:return null;
         }
@@ -105,7 +127,7 @@ public class StudentViewPagerAdaptor extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 4;
     }
     @Override
     public int getItemPosition(Object object)
