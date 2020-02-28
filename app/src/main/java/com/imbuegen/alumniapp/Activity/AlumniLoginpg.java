@@ -36,7 +36,8 @@ public class AlumniLoginpg extends AppCompatActivity {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if(user!=null){
             finish();
-            startActivity(new Intent(AlumniLoginpg.this,DepartmentsActivity.class));
+            startActivity(new Intent(AlumniLoginpg.this,DepartmentsFragment.class));
+            // TODO supposed to go to DepartmentsActivity.class
         }
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +74,8 @@ public class AlumniLoginpg extends AppCompatActivity {
         Boolean emailflag=((FirebaseUser) firebaseUser).isEmailVerified();
         if(emailflag){
             finish();
-            startActivity(new Intent(AlumniLoginpg.this, DepartmentsActivity.class));
+            startActivity(new Intent(AlumniLoginpg.this, DepartmentsFragment.class));
+            // TODO supposed to go to DepartmentsActivity.class
         }else{
             Toast.makeText(AlumniLoginpg.this,"Verify Your Email",Toast.LENGTH_SHORT).show();
             firebaseAuth.signOut();

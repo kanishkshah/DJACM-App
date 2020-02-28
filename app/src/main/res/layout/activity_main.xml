@@ -7,14 +7,22 @@
     android:layout_height="match_parent"
 
     android:padding="15dp">
-
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_depts"
-        android:layout_alignParentTop="true"
+<android.support.v4.view.ViewPager
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_above="@+id/navigation"
+    android:id="@+id/studentviewpager">
+<!--    <android.support.v7.widget.RecyclerView-->
+<!--        android:id="@+id/list_depts"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_above="@id/navigation"/>-->
+    <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/navigation"/>
+        android:layout_height="match_parent"
+        />
+</android.support.v4.view.ViewPager>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"

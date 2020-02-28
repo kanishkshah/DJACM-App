@@ -40,7 +40,7 @@ public class QuestionsAdapter  extends ArrayAdapter<QuestionsModel> implements V
 
 
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        convertView = inflater.inflate(R.layout.questions_info_item, parent, false);
+        convertView = inflater.inflate(R.layout.questions_info_item, null, false);
         TextView questionTv = (TextView) convertView.findViewById(R.id.questions_tv);
         TextView answerTV = (TextView) convertView.findViewById(R.id.answer_tv);
         questionTv.setText(dataModel.getQuestions());

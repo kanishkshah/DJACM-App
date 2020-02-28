@@ -1,5 +1,4 @@
 package com.imbuegen.alumniapp.Adapters;
-
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -9,6 +8,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+import android.widget.Filter;
+import android.widget.Filterable;
+import java.util.ArrayList;
+import java.util.Collection;
+import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
+
 
 import com.imbuegen.alumniapp.R;
 
@@ -18,20 +23,22 @@ import java.util.List;
 
 import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
+//<<<<<<< HEAD
 
 public class CompanyListAdapter extends ArrayAdapter<CompanyModel> implements Filterable{
+//=======
+//public class CompanyListAdapter extends ArrayAdapter<CompanyModel> implements Filterable {
+//>>>>>>> 7f314d941a6338c5387ec60e3e78c7ade6107213
     private Activity context;
     private List<CompanyModel> companyList;
     private List<CompanyModel> companyListAll;
 
-    public CompanyListAdapter(Activity context, List<CompanyModel> companyList)
-    {
-        super(context,R.layout.company_list_item,companyList);
+    public CompanyListAdapter(Activity context, List<CompanyModel> companyList) {
+        super(context.getApplicationContext(), R.layout.company_list_item, companyList);
         this.context = context;
         this.companyList = companyList;
         companyListAll=new ArrayList<>(companyList);
     }
-
 
     @NonNull
     @Override
@@ -85,6 +92,7 @@ public class CompanyListAdapter extends ArrayAdapter<CompanyModel> implements Fi
         companyList.clear();
         companyList.addAll((List)filterResults.values);
         notifyDataSetChanged();
+
         }
     };
 

@@ -60,4 +60,47 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+//<<<<<<< HEAD
 }
+//=======
+//
+//    public void signInStudent(View v) {
+//                List<AuthUI.IdpConfig> providers = Arrays.asList(
+//                        new AuthUI.IdpConfig.PhoneBuilder().build(),
+//                        new AuthUI.IdpConfig.GoogleBuilder().build());
+//                startActivityForResult(
+//                        AuthUI.getInstance()
+//                                .createSignInIntentBuilder()
+//                                .setTheme(R.style.CustomTheme)
+//                                .setAvailableProviders(providers)
+//                                .build(),
+//                        RC_SIGN_IN);
+//    }
+//    public void signInAlumni(View v) {
+//        startActivity(new Intent(this,AlumniLoginActivity.class));
+//    }
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == RC_SIGN_IN) {
+//            IdpResponse response = IdpResponse.fromResultIntent(data);
+//            if (resultCode == RESULT_OK) {
+//                // Successful sign in
+//                setContentView(R.layout.loading_screen);
+//                SFHandler.setString(getSharedPreferences("Auth",MODE_PRIVATE),SFHandler.USER_KEY,"Student");
+//                goToStudentScreen();
+//            } else {
+//                Toast.makeText(this, "Student Sign in Uncessfull", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
+//
+//    private void goToStudentScreen() {
+//        Intent i = new Intent(this,BaseActivity.class);
+//        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        startActivity(i);
+//        finish();
+//    }
+//}
+//>>>>>>> 7f314d941a6338c5387ec60e3e78c7ade6107213

@@ -112,7 +112,9 @@ public class CompanyActivity extends BaseActivity  {
                         CompanyModel selectedCompany = (CompanyModel) listViewComapny.getItemAtPosition(i);
 
                         String selectedCompName = selectedCompany.getCompanyName();
-                        Intent AlumniActivityIntent = new Intent(CompanyActivity.this,AlumniActivity.class);
+                        Intent AlumniActivityIntent = new Intent(CompanyActivity.this,AlumniFragment.class);
+                        //TODO Above intent was supposed to
+                        //Redirect to AlumniActivity.
                         AlumniActivityIntent.putExtra("CompName",selectedCompName);
                         AlumniActivityIntent.putExtra("DeptName",fbDeptKey);
                         startActivity(AlumniActivityIntent);

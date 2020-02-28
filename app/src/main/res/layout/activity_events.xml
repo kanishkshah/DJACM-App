@@ -12,16 +12,17 @@
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/navigation"
         android:padding="5dp"/>
+<!--        android:layout_above="@id/navigation"-->
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:background="@color/White"
-        android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_menu" />
+
+<!--    <android.support.design.widget.BottomNavigationView-->
+<!--        android:id="@+id/navigation"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="start"-->
+<!--        android:background="@color/White"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        app:menu="@menu/bottom_menu" />-->
 
 </RelativeLayout>

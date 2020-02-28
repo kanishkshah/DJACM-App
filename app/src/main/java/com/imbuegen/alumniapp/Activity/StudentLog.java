@@ -65,7 +65,8 @@ public class StudentLog extends AppCompatActivity {
 
         if(user!=null){
             finish();
-            startActivity(new Intent(StudentLog.this,DepartmentsActivity.class));
+            startActivity(new Intent(StudentLog.this,DepartmentsFragment.class));
+            // TODO supposed to go to DepartmentsActivity.class
         }
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,7 +150,8 @@ public class StudentLog extends AppCompatActivity {
         Boolean emailflag=((FirebaseUser) firebaseUser).isEmailVerified();
         if(emailflag){
             finish();
-            startActivity(new Intent(StudentLog.this, DepartmentsActivity.class));
+            startActivity(new Intent(StudentLog.this, DepartmentsFragment.class));
+            // TODO supposed to go to DepartmentsActivity.class
         }else{
             Toast.makeText(StudentLog.this,"Verify Your Email",Toast.LENGTH_SHORT).show();
             firebaseAuth.signOut();

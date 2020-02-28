@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.CompanyActivity"
+    tools:context=".Activity.CompanyFragment"
     android:orientation="vertical">
 
 
@@ -12,17 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/listViewCompany"
-        android:layout_alignParentTop="true"
-        android:layout_above="@id/navigation">
+        android:layout_alignParentTop="true">
     </ListView>
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:background="@color/White"
-        android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_menu" />
 
 
 </RelativeLayout>

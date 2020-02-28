@@ -3,7 +3,9 @@ package com.imbuegen.alumniapp.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
 import android.support.annotation.NonNull;
+
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,12 +14,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import com.imbuegen.alumniapp.R;
 
 public class InternshipDetails extends BaseActivity {
@@ -29,6 +33,7 @@ public class InternshipDetails extends BaseActivity {
     int coun,amnt;
     DatabaseReference databaseReference;
     DatabaseReference databaseReference1,databaseReference2,databaseReference3;
+
 
 
     @Override
@@ -74,9 +79,11 @@ public class InternshipDetails extends BaseActivity {
         databaseReference3=FirebaseDatabase.getInstance().getReference();
         databaseReference=FirebaseDatabase.getInstance().getReference();
 
+
         applyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//<<<<<<< HEAD
                 String user2 = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 if(coun==0)
                 {
@@ -98,10 +105,22 @@ public class InternshipDetails extends BaseActivity {
                     databaseReference.child("APC").child(mTitle).child("year").setValue(yr);
 
                 }
+//=======
+//                databaseReference= FirebaseDatabase.getInstance().getReference();
+//                Application_Details application_details;
+//               // application_details=
+//>>>>>>> 7f314d941a6338c5387ec60e3e78c7ade6107213
 
             }
         });
 
+//<<<<<<< HEAD
+//=======
+//        actionBar.setTitle(mTitle);
+//        companyTitle.setText(mTitle);
+//        companyDesc.setText(mDesc);
+//
+//>>>>>>> 7f314d941a6338c5387ec60e3e78c7ade6107213
 
     }
 }

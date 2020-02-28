@@ -11,17 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/listViewAlumni"
-        android:layout_alignParentTop="true"
-        android:layout_above="@id/navigation">
-    </ListView>
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:background="@color/White"
-        android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_menu" />
+        android:layout_alignParentTop="true">
 
+
+    </ListView>
 
 </RelativeLayout>
