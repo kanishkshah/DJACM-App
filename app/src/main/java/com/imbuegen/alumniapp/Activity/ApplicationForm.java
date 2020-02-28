@@ -1,12 +1,19 @@
 package com.imbuegen.alumniapp.Activity;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -25,12 +32,15 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.imbuegen.alumniapp.NestedFragmentListener;
 import com.imbuegen.alumniapp.R;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class ApplicationForm extends AppCompatActivity implements OnItemSelectedListener {
+import static android.app.Activity.RESULT_OK;
+
+public class ApplicationForm extends Fragment implements OnItemSelectedListener {
 
     public String ap_year;
     private static EditText name,sap,email;
@@ -45,13 +55,26 @@ public class ApplicationForm extends AppCompatActivity implements OnItemSelected
     public int c=0;
     Set<String> hash_Set = new HashSet<String>();
     boolean flag=false;
+    NestedFragmentListener listener;
+    SharedPreferences.Editor editor;
+    public void backPressed() {
+        editor=getContext().getSharedPreferences("SwitchTo", Context.MODE_PRIVATE).edit();
+        editor.putString("goto","IF");
+        editor.commit();
 
+        listener.onSwitchToNextFragment();
+    }
+    public ApplicationForm()
+    {}
+    @SuppressLint("ValidFragment")
+    public ApplicationForm(NestedFragmentListener listener){this.listener=listener;}
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_application_form);
-        Spinner year=findViewById(R.id.Appli_Year);
-        Spinner dept=findViewById(R.id.departments);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+       View v=inflater.inflate(R.layout.activity_application_form,null);
+        Spinner year=v.findViewById(R.id.Appli_Year);
+        Spinner dept=v.findViewById(R.id.departments);
 
 
         hash_Set.add("tejasghone73@gmail.com");
@@ -61,7 +84,7 @@ public class ApplicationForm extends AppCompatActivity implements OnItemSelected
         hash_Set.add("Set");
 
         ArrayAdapter<CharSequence> adapter= ArrayAdapter.createFromResource(
-                this,
+                getContext(),
                 R.array.Applicant_Dept,
                 android.R.layout.simple_spinner_item
 
@@ -80,12 +103,12 @@ public class ApplicationForm extends AppCompatActivity implements OnItemSelected
             }
         });
         year.setOnItemSelectedListener(this);
-        name=findViewById(R.id.Appli_Name);
-        sap=findViewById(R.id.Appli_Sap);
-        email=findViewById(R.id.Appli_Email);
-        send_d=findViewById(R.id.Appli_Details);
-        urll=findViewById(R.id.Pdf_url);
-        pdf=findViewById(R.id.pdf_btn);
+        name=v.findViewById(R.id.Appli_Name);
+        sap=v.findViewById(R.id.Appli_Sap);
+        email=v.findViewById(R.id.Appli_Email);
+        send_d=v.findViewById(R.id.Appli_Details);
+        urll=v.findViewById(R.id.Pdf_url);
+        pdf=v.findViewById(R.id.pdf_btn);
         storageReference= FirebaseStorage.getInstance().getReference();
 
         pdf.setOnClickListener(new View.OnClickListener() {
@@ -109,10 +132,9 @@ public class ApplicationForm extends AppCompatActivity implements OnItemSelected
 
             }
         });
-
+return v;
     }
     private void selectPDF(){
-
         Intent intent=new Intent();
         intent.setType("application/pdf");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -122,7 +144,7 @@ public class ApplicationForm extends AppCompatActivity implements OnItemSelected
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==1 && resultCode==RESULT_OK && data!=null && data.getData()!=null)
         {
@@ -135,7 +157,7 @@ public class ApplicationForm extends AppCompatActivity implements OnItemSelected
     private void uploadPDFfile(Uri data) {
 
 
-        final ProgressDialog progressDialog=new ProgressDialog(this);
+        final ProgressDialog progressDialog=new ProgressDialog(getContext());
         progressDialog.setTitle("Uploading your Application");
         progressDialog.show();
         StorageReference refer=storageReference.child("Applicant_CVs/"+ap_dept+"/"+ap_year+"/"+ap_name);
@@ -152,9 +174,15 @@ public class ApplicationForm extends AppCompatActivity implements OnItemSelected
                         reference= FirebaseDatabase.getInstance().getReference().child("Applications");
                         reference.child(user).setValue(details);
 
-                        Toast.makeText(ApplicationForm.this,"Application Uploaded",Toast.LENGTH_SHORT).show();
-                        finish();
-                        startActivity(new Intent(ApplicationForm.this,InternshipCompany.class));
+                        Toast.makeText(getActivity(),"Application Uploaded",Toast.LENGTH_SHORT).show();
+                        editor=getActivity().getSharedPreferences("SwitchTo", Context.MODE_PRIVATE).edit();
+                        editor.putString("goto","IfComp");
+                        editor.commit();
+
+                        listener.onSwitchToNextFragment();
+
+                        //backPressed();
+                       // startActivity(new Intent(getActivity(),InternshipCompany.class));
 
                     }
 

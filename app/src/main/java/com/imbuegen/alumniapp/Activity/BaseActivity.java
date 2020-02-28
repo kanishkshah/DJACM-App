@@ -104,12 +104,20 @@ public void setActivity(Activity a) {
             }
         }
         else if (viewPager.getCurrentItem() == 3) {
-            if (adapter.getItem(3) instanceof Screen1Fragment) {
-                ((Screen1Fragment) adapter.getItem(3)).backPressed();
+            if (adapter.getItem(3) instanceof ApplicationForm) {
+                ((ApplicationForm) adapter.getItem(3)).backPressed();
 
             }
            else if (adapter.getItem(3) instanceof Screen2Fragment ){
                 ((Screen2Fragment) adapter.getItem(3)).backPressed();
+
+            }
+            else if (adapter.getItem(3) instanceof InternshipCompany ){
+                ((InternshipCompany) adapter.getItem(3)).backPressed();
+
+            }
+            else if (adapter.getItem(3) instanceof InternshipDetails ){
+                ((InternshipDetails) adapter.getItem(3)).backPressed();
 
             }
             else if (adapter.getItem(3) instanceof IfFragment) {

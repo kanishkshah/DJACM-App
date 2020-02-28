@@ -1,18 +1,26 @@
 package com.imbuegen.alumniapp.Activity;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import android.support.annotation.NonNull;
 
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,9 +30,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import com.imbuegen.alumniapp.NestedFragmentListener;
 import com.imbuegen.alumniapp.R;
 
-public class InternshipDetails extends BaseActivity {
+public class InternshipDetails extends Fragment {
 
     TextView companyTitle,companyDesc;
     ImageView companyImage;
@@ -35,26 +44,44 @@ public class InternshipDetails extends BaseActivity {
     DatabaseReference databaseReference1,databaseReference2,databaseReference3;
 
 
+    NestedFragmentListener listener;
+    SharedPreferences.Editor editor;
+    SharedPreferences shpref;
 
+    public InternshipDetails(){}
+    @SuppressLint("ValidFragment")
+    public InternshipDetails(NestedFragmentListener listener){
+        this.listener=listener;
+    }
+    public void backPressed() {
+        editor=getContext().getSharedPreferences("SwitchTo", Context.MODE_PRIVATE).edit();
+        editor.putString("goto","IF");
+        editor.commit();
+
+        listener.onSwitchToNextFragment();
+    }
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_internship_details);
-        companyTitle=findViewById(R.id.company_title);
-        companyDesc=findViewById(R.id.company_desc);
-        companyImage=findViewById(R.id.logo);
-        applyBtn = findViewById(R.id.apply_btn);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v=inflater.inflate(R.layout.activity_internship_details,null);
+
+        companyTitle=v.findViewById(R.id.company_title);
+        companyDesc=v.findViewById(R.id.company_desc);
+        companyImage=v.findViewById(R.id.logo);
+        applyBtn = v.findViewById(R.id.apply_btn);
 
 
 
-        ActionBar actionBar=getSupportActionBar();
+        //ActionBar actionBar=getSupportActionBar();
 
 
-        Intent intent=getIntent();
+        //Intent intent=getIntent();
+        shpref=getContext().getSharedPreferences("IntDet", Context.MODE_PRIVATE);
 
-        final String mTitle=intent.getStringExtra("iTitle");
-        String mDesc=intent.getStringExtra("iDesc");
-        actionBar.setTitle(mTitle);
+        final String mTitle=shpref.getString("iTitle","");
+        String mDesc=shpref.getString("iDesc","");
+        getActivity().setTitle(mTitle);
         companyTitle.setText(mTitle);
         companyDesc.setText(mDesc);
         String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -90,19 +117,19 @@ public class InternshipDetails extends BaseActivity {
                     databaseReference3.child("Applications").child(user2).child("amount").setValue(amnt+100);
                     databaseReference2.child("Applied_To").child(user2).child(mTitle).child("name").setValue(mTitle);
                     databaseReference2.child("Applied_To").child(user2).child(mTitle).child("skills").setValue(mTitle);
-                    databaseReference.child("APC").child(mTitle).child("name").setValue(name);
-                    databaseReference.child("APC").child(mTitle).child("sap").setValue(sap);
-                    databaseReference.child("APC").child(mTitle).child("dept").setValue(branch);
-                    databaseReference.child("APC").child(mTitle).child("year").setValue(yr);
+                    databaseReference.child("APC").child(mTitle).child(sap).child("name").setValue(name);
+                    databaseReference.child("APC").child(mTitle).child(sap).child("sap").setValue(sap);
+                    databaseReference.child("APC").child(mTitle).child(sap).child("dept").setValue(branch);
+                    databaseReference.child("APC").child(mTitle).child(sap).child("year").setValue(yr);
                 }
                 else{
                     databaseReference2.child("Applied_To").child(user2).child(mTitle).child("name").setValue(mTitle);
                     databaseReference2.child("Applied_To").child(user2).child(mTitle).child("skills").setValue(mTitle);
                     databaseReference3.child("Applications").child(user2).child("count").setValue(coun-1);
-                    databaseReference.child("APC").child(mTitle).child("name").setValue(name);
-                    databaseReference.child("APC").child(mTitle).child("sap").setValue(sap);
-                    databaseReference.child("APC").child(mTitle).child("dept").setValue(branch);
-                    databaseReference.child("APC").child(mTitle).child("year").setValue(yr);
+                    databaseReference.child("APC").child(mTitle).child(sap).child("name").setValue(name);
+                    databaseReference.child("APC").child(mTitle).child(sap).child("sap").setValue(sap);
+                    databaseReference.child("APC").child(mTitle).child(sap).child("dept").setValue(branch);
+                    databaseReference.child("APC").child(mTitle).child(sap).child("year").setValue(yr);
 
                 }
 //=======
@@ -110,7 +137,7 @@ public class InternshipDetails extends BaseActivity {
 //                Application_Details application_details;
 //               // application_details=
 //>>>>>>> 7f314d941a6338c5387ec60e3e78c7ade6107213
-
+                Toast.makeText(getContext(),"Applied Successfully",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -121,6 +148,6 @@ public class InternshipDetails extends BaseActivity {
 //        companyDesc.setText(mDesc);
 //
 //>>>>>>> 7f314d941a6338c5387ec60e3e78c7ade6107213
-
+return v;
     }
 }
