@@ -23,7 +23,12 @@ import java.util.List;
 
 import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
-public class CompanyListAdapter extends ArrayAdapter<CompanyModel> implements Filterable {
+//<<<<<<< HEAD
+
+public class CompanyListAdapter extends ArrayAdapter<CompanyModel> implements Filterable{
+//=======
+//public class CompanyListAdapter extends ArrayAdapter<CompanyModel> implements Filterable {
+//>>>>>>> 7f314d941a6338c5387ec60e3e78c7ade6107213
     private Activity context;
     private List<CompanyModel> companyList;
     private List<CompanyModel> companyListAll;
@@ -32,7 +37,7 @@ public class CompanyListAdapter extends ArrayAdapter<CompanyModel> implements Fi
         super(context.getApplicationContext(), R.layout.company_list_item, companyList);
         this.context = context;
         this.companyList = companyList;
-        companyListAll = new ArrayList<>(companyList);
+        companyListAll=new ArrayList<>(companyList);
     }
 
     @NonNull
@@ -50,7 +55,8 @@ public class CompanyListAdapter extends ArrayAdapter<CompanyModel> implements Fi
 
         return listItemView;
     }
-   @NonNull
+
+    @NonNull
     @Override
     public Filter getFilter() {
         return exampleFilter;
@@ -83,9 +89,10 @@ public class CompanyListAdapter extends ArrayAdapter<CompanyModel> implements Fi
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
 
-            companyList.clear();
-            companyList.addAll((List)filterResults.values);
-            notifyDataSetChanged();
+        companyList.clear();
+        companyList.addAll((List)filterResults.values);
+        notifyDataSetChanged();
+
         }
     };
 

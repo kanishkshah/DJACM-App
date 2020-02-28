@@ -1,3 +1,21 @@
+//<<<<<<< HEAD:app/src/main/java/com/imbuegen/alumniapp/Activity/DetailedEventActivity.java
+//package com.imbuegen.alumniapp.Activity;
+//
+//import android.support.design.widget.BottomNavigationView;
+//import android.os.Bundle;
+//import android.support.v7.widget.LinearLayoutManager;
+//import android.support.v7.widget.RecyclerView;
+//import android.widget.TextView;
+//import com.imbuegen.alumniapp.Adapters.DetailedEventAdapter;
+//import com.imbuegen.alumniapp.Models.EventMember;
+//import com.imbuegen.alumniapp.R;
+//
+//import java.util.ArrayList;
+//import java.util.List;
+//
+//import su.j2e.rvjoiner.RvJoiner;
+//
+//=======
 package com.imbuegen.alumniapp.Activity;
 
 import android.annotation.SuppressLint;
@@ -91,3 +109,4 @@ public class DetailedEventFragment extends Fragment {
 
     }
 }
+//>>>>>>> 7f314d941a6338c5387ec60e3e78c7ade6107213:app/src/main/java/com/imbuegen/alumniapp/Activity/DetailedEventFragment.java

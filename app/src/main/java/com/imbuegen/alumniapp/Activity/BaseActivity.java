@@ -143,11 +143,13 @@ public void setActivity(Activity a) {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
 
+
                 Fragment fragment = null;
                 if (menuItem.getItemId() == R.id.navigation_alumni)
                 {
                     viewPager.setCurrentItem(0);
                     //fragment =adapter.getItem(0);
+
 
                 }
                 if (menuItem.getItemId() == R.id.navigation_events) {

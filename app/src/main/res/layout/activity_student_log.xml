@@ -39,9 +39,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:gravity="center"
                 android:layout_marginBottom="54dp"
-                android:text="Alumni Login"
+                android:gravity="center"
+                android:text="Student Login"
                 android:textColor="@color/colorPrimary"
                 android:textSize="32sp" />
 

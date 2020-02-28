@@ -34,7 +34,7 @@
         android:textStyle="bold"
         tools:text="Login as Student" />
     <Button
-        android:id="@+id/alumniLogin"
+        android:id="@+id/AL"
         android:layout_width="236dp"
         android:layout_height="38dp"
         android:onClick="signInAlumni"
@@ -49,5 +49,19 @@
 
 
 </LinearLayout>
+
+    <Button
+        android:id="@+id/signupbtn"
+        android:layout_width="145dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="136dp"
+        android:layout_marginTop="54dp"
+        android:layout_marginEnd="129dp"
+        android:layout_marginBottom="142dp"
+        android:text="Sign up" />
 
 </RelativeLayout>
