@@ -28,7 +28,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.imbuegen.alumniapp.Service.SFHandler;import com.imbuegen.alumniapp.R;
+import com.imbuegen.alumniapp.Service.SFHandler;
+import com.imbuegen.alumniapp.R;
 
 
 /**
@@ -78,7 +79,7 @@ public class AlumniLoginActivity extends Activity  {
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mEmailSignInButton = (Button) findViewById(R.id.googleBtn);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {

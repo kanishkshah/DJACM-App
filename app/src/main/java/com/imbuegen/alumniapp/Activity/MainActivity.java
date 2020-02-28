@@ -19,6 +19,9 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+      //  startActivity(new Intent(MainActivity.this,InternshipCompany.class));
+
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
-
 import com.imbuegen.alumniapp.Adapters.DetailedEventAdapter;
 import com.imbuegen.alumniapp.Models.EventMember;
 import com.imbuegen.alumniapp.R;

@@ -3,9 +3,13 @@ package com.imbuegen.alumniapp.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,17 +22,18 @@ import com.imbuegen.alumniapp.Adapters.CompanyModel;
 import java.util.ArrayList;
 import java.util.List;import com.imbuegen.alumniapp.R;import com.imbuegen.alumniapp.R;
 
-public class CompanyActivity extends BaseActivity {
+public class CompanyActivity extends BaseActivity  {
 
     //Displaying List of Companies
 
     ListView listViewComapny;
     List<CompanyModel> companyModelList;
-
     String fbDeptKey ;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+
     DatabaseReference deptRef ;//= database.getReference("Departments").child(fbDeptKey);
+    private CompanyListAdapter adapter;
     //DatabaseReference companyRef = deptRef.child("Companies");
 
     @Override
@@ -36,8 +41,6 @@ public class CompanyActivity extends BaseActivity {
         setActivity(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company);
-
-
 
         Bundle gt=getIntent().getExtras();
         String str=gt.getString("deptName");
@@ -74,8 +77,11 @@ public class CompanyActivity extends BaseActivity {
         }
 
         deptRef = database.getReference("Departments").child(fbDeptKey);
+
         DatabaseReference companyRef = deptRef.child("Companies");
+        deptRef.keepSynced(true);
         setTitle(str);
+
 
 
 
@@ -94,7 +100,7 @@ public class CompanyActivity extends BaseActivity {
                 }
 
 
-                CompanyListAdapter adapter = new CompanyListAdapter(CompanyActivity.this,companyModelList);
+               adapter = new CompanyListAdapter(CompanyActivity.this,companyModelList);
 
 
                 listViewComapny.setAdapter(adapter);
@@ -126,4 +132,28 @@ public class CompanyActivity extends BaseActivity {
 
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_toolbar,menu);
+        MenuItem menuItem=menu.findItem(R.id.alumni_search);
+      SearchView searchView=(SearchView) menuItem.getActionView();
+
+
+      searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+          @Override
+          public boolean onQueryTextSubmit(String s) {
+              return false;
+          }
+
+          @Override
+          public boolean onQueryTextChange(String s) {
+             adapter.getFilter().filter(s);
+              return true;
+          }
+      });
+
+        return true;
+    }
+
+
 }
