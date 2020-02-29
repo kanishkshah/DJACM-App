@@ -6,7 +6,10 @@ public class Company {
 
     public Company() {
     }
-
+    public Company(String name,String skills){
+        this.name=name;
+        this.skills=skills;
+    }
     public Company(String name, String skills, String description, String url) {
         this.name = name;
         this.skills = skills;

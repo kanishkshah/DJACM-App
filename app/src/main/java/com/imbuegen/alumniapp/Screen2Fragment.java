@@ -34,8 +34,8 @@ public class Screen2Fragment extends Fragment {
     private DatabaseReference mDatabase;
     Applicant_Details details;
     //List<Company> company_list;
+    //DataSnapshot company1_list;
     Company company_list;
-// ...
 
     public void backPressed() {
         editor=getContext().getSharedPreferences("SwitchTo", Context.MODE_PRIVATE).edit();
@@ -86,10 +86,15 @@ public class Screen2Fragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get Post object and use the values to update the UI
-                company_list = dataSnapshot.getValue(Company.class);
-                //If company_list is an array, this gave a syntax error
-                Toast.makeText(getContext(), company_list.getName(), Toast.LENGTH_SHORT).show();
-                //populateUI(companies,1,null);
+                int i=1;
+                for(DataSnapshot company1_list:dataSnapshot.getChildren()) {
+                    //If company_list is an array, this gave a syntax error
+                    company_list=company1_list.getValue(Company.class);
+                    //Toast.makeText(getContext(), company_list.getName(), Toast.LENGTH_SHORT).show();
+                    companies.addView(generateTextView("1. "));
+                    populateUI(companies, 1, null);
+                    i++;
+                }
                 // ...
             }
 
@@ -100,7 +105,7 @@ public class Screen2Fragment extends Fragment {
                 // ...
             }
         };
-        //query1.addValueEventListener(postListener1);
+        query1.addValueEventListener(postListener1);
         // TODO The above line keeps crashing the app
 
         //gridLayout.addView(generateTextView("Blah"));
@@ -137,7 +142,7 @@ public class Screen2Fragment extends Fragment {
         }
         if(mode==1)
         {
-            gridLayout.addView(generateTextView("1. "));
+
             gridLayout.addView(generateTextView(company_list.getName()));
             gridLayout.addView(generateTextView(company_list.getSkills()));
         }
