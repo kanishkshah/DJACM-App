@@ -8,11 +8,14 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
 import com.imbuegen.alumniapp.Activity.AlumniFragment;
 import com.imbuegen.alumniapp.Activity.AlumniInfoFragment;
+import com.imbuegen.alumniapp.Activity.ApplicationForm;
 import com.imbuegen.alumniapp.Activity.CommiteeFragment;
 import com.imbuegen.alumniapp.Activity.CompanyFragment;
 import com.imbuegen.alumniapp.Activity.DepartmentsFragment;
 import com.imbuegen.alumniapp.Activity.DetailedEventFragment;
 import com.imbuegen.alumniapp.Activity.EventsFragment;
+import com.imbuegen.alumniapp.Activity.InternshipCompany;
+import com.imbuegen.alumniapp.Activity.InternshipDetails;
 import com.imbuegen.alumniapp.IfFragment;
 import com.imbuegen.alumniapp.NestedFragmentListener;
 import com.imbuegen.alumniapp.Screen1Fragment;
@@ -75,7 +78,7 @@ public class StudentViewPagerAdaptor extends FragmentStatePagerAdapter {
                 case "screen1":editor.clear().commit();
                     fm.beginTransaction().remove(IF)
                             .commit();
-                    IF = new Screen1Fragment(listener);
+                    IF = new ApplicationForm(listener);
                     break;
                 case "screen2":editor.clear().commit();
                     fm.beginTransaction().remove(IF)
@@ -86,6 +89,16 @@ public class StudentViewPagerAdaptor extends FragmentStatePagerAdapter {
                     fm.beginTransaction().remove(IF)
                             .commit();
                     IF = new IfFragment(listener);
+                    break;
+                case "IfComp":editor.clear().commit();
+                    fm.beginTransaction().remove(IF)
+                            .commit();
+                    IF = new InternshipCompany(listener);
+                    break;
+                case "IntDet":editor.clear().commit();
+                    fm.beginTransaction().remove(IF)
+                            .commit();
+                    IF = new InternshipDetails(listener);
                     break;
             }
 
