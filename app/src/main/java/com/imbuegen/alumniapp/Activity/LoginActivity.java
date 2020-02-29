@@ -11,7 +11,7 @@ import android.widget.Toast;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
-import com.imbuegen.alumniapp.Service.SFHandler;
+//import com.imbuegen.alumniapp.Service.SFHandler;
 
 import java.util.Arrays;
 import java.util.List;import com.imbuegen.alumniapp.R;

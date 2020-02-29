@@ -40,7 +40,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/button_shape"
-            android:text="Screen2"
+            android:text="Receipt "
             android:textColor="@android:color/white"
             android:textStyle="bold"
             tools:text="Screen2" />
