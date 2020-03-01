@@ -2,18 +2,11 @@ package com.imbuegen.alumniapp.Activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
+import android.os.Bundle;
 import android.support.annotation.NonNull;
-
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,16 +15,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import com.imbuegen.alumniapp.NestedFragmentListener;
 import com.imbuegen.alumniapp.R;
+import com.squareup.picasso.Picasso;
 
 public class InternshipDetails extends Fragment {
 
@@ -81,9 +73,11 @@ public class InternshipDetails extends Fragment {
 
         final String mTitle=shpref.getString("iTitle","");
         String mDesc=shpref.getString("iDesc","");
+        String CompUrl=shpref.getString("iLogo","");
         getActivity().setTitle(mTitle);
         companyTitle.setText(mTitle);
         companyDesc.setText(mDesc);
+        Picasso.get().load(CompUrl).into(companyImage);
         String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
         databaseReference1=FirebaseDatabase.getInstance().getReference("Applications").child(user);
         databaseReference1.addValueEventListener(new ValueEventListener() {
