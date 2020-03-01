@@ -47,7 +47,7 @@ public class InternshipDetails extends Fragment {
     }
     public void backPressed() {
         editor=getContext().getSharedPreferences("SwitchTo", Context.MODE_PRIVATE).edit();
-        editor.putString("goto","IF");
+        editor.putString("goto","IfComp");
         editor.commit();
 
         listener.onSwitchToNextFragment();
