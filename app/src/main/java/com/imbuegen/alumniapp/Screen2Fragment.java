@@ -24,9 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.imbuegen.alumniapp.Activity.Applicant_Details;
-import com.imbuegen.alumniapp.Activity.Company;
-
-import java.util.List;
+import com.imbuegen.alumniapp.Models.InternshipCompanyModel;
 
 public class Screen2Fragment extends Fragment {
     NestedFragmentListener listener;
@@ -35,7 +33,7 @@ public class Screen2Fragment extends Fragment {
     Applicant_Details details;
     //List<Company> company_list;
     //DataSnapshot company1_list;
-    Company company_list;
+    InternshipCompanyModel company_list;
 
     public void backPressed() {
         editor=getContext().getSharedPreferences("SwitchTo", Context.MODE_PRIVATE).edit();
@@ -89,7 +87,7 @@ public class Screen2Fragment extends Fragment {
                 int i=1;
                 for(DataSnapshot company1_list:dataSnapshot.getChildren()) {
                     //If company_list is an array, this gave a syntax error
-                    company_list=company1_list.getValue(Company.class);
+                    company_list=company1_list.getValue(InternshipCompanyModel.class);
                     //Toast.makeText(getContext(), company_list.getName(), Toast.LENGTH_SHORT).show();
                     companies.addView(generateTextView("1. "));
                     populateUI(companies, 1, null);

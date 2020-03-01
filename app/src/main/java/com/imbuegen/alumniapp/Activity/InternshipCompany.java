@@ -4,27 +4,22 @@ package com.imbuegen.alumniapp.Activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import com.imbuegen.alumniapp.Adapters.InternshipCompanyAdapter;
 import com.imbuegen.alumniapp.Models.InternshipCompanyModel;
 import com.imbuegen.alumniapp.NestedFragmentListener;
@@ -32,21 +27,23 @@ import com.imbuegen.alumniapp.R;
 
 import java.util.ArrayList;
 
-import java.util.concurrent.TimeUnit;
-
 
 public class InternshipCompany extends Fragment {
 
+
+    ArrayList<InternshipCompanyModel> internshipCompanyModels=new ArrayList<>();
     RecyclerView mRecyclerView;
     InternshipCompanyAdapter internshipCompanyAdapter;
     DatabaseReference databaseReference;
-NestedFragmentListener listener;
-SharedPreferences.Editor editor;
-public InternshipCompany(){}
+    NestedFragmentListener listener;
+    SharedPreferences.Editor editor;
+
+    public InternshipCompany(){}
     @SuppressLint("ValidFragment")
     public InternshipCompany(NestedFragmentListener listener){
     this.listener=listener;
     }
+
     public void backPressed() {
         editor=getContext().getSharedPreferences("SwitchTo", Context.MODE_PRIVATE).edit();
         editor.putString("goto","IF");
@@ -54,8 +51,7 @@ public InternshipCompany(){}
 
         listener.onSwitchToNextFragment();
     }
-
-    @Nullable
+ @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.activity_internship_company,null);
@@ -64,46 +60,72 @@ public InternshipCompany(){}
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        try {
-            internshipCompanyAdapter=new InternshipCompanyAdapter(getContext(),getInternshipCompanyList(),listener);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+     databaseReference= FirebaseDatabase.getInstance().getReference().child("Companies");
+
+     databaseReference.addValueEventListener(new ValueEventListener() {
+         @Override
+         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+             if(dataSnapshot.exists())
+             {   internshipCompanyModels.clear();
+
+                 for(DataSnapshot companysnapshot:dataSnapshot.getChildren())
+                 {
+                     InternshipCompanyModel internshipCompanyModel=companysnapshot.getValue(InternshipCompanyModel.class);
+                     Log.d("NAME",internshipCompanyModel.getName());
+
+                     internshipCompanyModels.add(internshipCompanyModel);
+                 }
+
+                 internshipCompanyAdapter=new InternshipCompanyAdapter(getContext() ,internshipCompanyModels,listener);
+                 mRecyclerView.setAdapter(internshipCompanyAdapter);
+             }
+
+             else
+             {
+                 Log.d("NAME2","Broooooooooooooooooooooooo");
+             }
+         }
+
+         @Override
+         public void onCancelled(@NonNull DatabaseError databaseError) {
+
+         }
+     });
 
 
-        mRecyclerView.setAdapter(internshipCompanyAdapter);
+
 return v;
     }
 
-    private ArrayList<InternshipCompanyModel> getInternshipCompanyList() throws InterruptedException {
+   /* private ArrayList<InternshipCompanyModel> getInternshipCompanyList() throws InterruptedException {
 
-        final ArrayList<InternshipCompanyModel> internshipCompanyModels=new ArrayList<>();
+
         databaseReference= FirebaseDatabase.getInstance().getReference().child("Companies");
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                 if(dataSnapshot.exists())
-                {
+                {   internshipCompanyModels.clear();
 
+                    for(DataSnapshot companysnapshot:dataSnapshot.getChildren())
+                    {
+                      //  InternshipCompanyModel m =new InternshipCompanyModel();
+                    InternshipCompanyModel internshipCompanyModel=companysnapshot.getValue(InternshipCompanyModel.class);
+                    Log.d("NAME",internshipCompanyModel.getName());
+               //     m.setTitle(company.getName());
+                 //   m.setDescription(company.getDescription());
+                   // m.setLogo(R.drawable.ic_acm);
 
-                for(DataSnapshot companysnapshot:dataSnapshot.getChildren())
-                {
-                    Company company=companysnapshot.getValue(Company.class);
-                    InternshipCompanyModel m =new InternshipCompanyModel();
-                    Log.d("NAME",company.getName());
-                    m.setTitle(company.getName());
-                    m.setDescription(company.getDescription());
-                    m.setLogo(R.drawable.ic_acm);
-
-                    internshipCompanyModels.add(m);
-
-
-                }}
+                    internshipCompanyModels.add(internshipCompanyModel);
+                   }
+                }
 
                 else
                 {
-                    Log.d("NAME","Broooooooooooooooooooooooo");
+                    Log.d("NAME2","Broooooooooooooooooooooooo");
                 }
 
 
@@ -114,17 +136,18 @@ return v;
 
             }
         });
-        Log.d("NAME","Broooooooooooooooooooooooo");
-        InternshipCompanyModel m =new InternshipCompanyModel();
-//        Log.d("NAME",company.getName());
-        m.setTitle("Google");
+        Log.d("NAME3","Broooooooooooooooooooooooo");
+     /*   InternshipCompanyModel m =new InternshipCompanyModel();
+     //   Log.d("NAME",company.getName());
+        m.setName("Google");
         m.setDescription("HEY BABY");
-        m.setLogo(R.drawable.ic_acm);
+        m.setUrl(R.drawable.ic_acm);
         internshipCompanyModels.add(m);
+
         return internshipCompanyModels;
 
-
-
     }
-
+*/
 }
+
+
