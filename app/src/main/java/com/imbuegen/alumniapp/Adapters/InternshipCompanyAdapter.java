@@ -42,7 +42,7 @@ NestedFragmentListener listener;
     public void onBindViewHolder(@NonNull final InternshipHolder internshipHolder, int i) {
 
         internshipHolder.mTitle.setText(models.get(i).getName());
-        internshipHolder.mDescription.setText(models.get(i).getDescription());
+        internshipHolder.mDescription.setText(models.get(i).getSkills());
         Picasso.get().load(models.get(i).getUrl()).into(internshipHolder.mLogo);
 
         internshipHolder.setInternshipCompanyClickListener(new InternshipCompanyClickListener() {
@@ -50,12 +50,12 @@ NestedFragmentListener listener;
             public void onInternshipCompanyClickListener(View v, int position) {
 
                 String gTitle = models.get(position).getName();
-                String gDesc= models.get(position).getDescription();
+                String gSkills= models.get(position).getSkills();
                 String gLogo=models.get(position).getUrl();
 
                 editor=mContext.getSharedPreferences("IntDet", Context.MODE_PRIVATE).edit();
                 editor.putString("iTitle",gTitle);
-                editor.putString("iDesc",gDesc);
+                editor.putString("iSkills",gSkills);
                 editor.putString("iLogo",gLogo);
                 editor.commit();
                 editor=mContext.getSharedPreferences("SwitchTo", Context.MODE_PRIVATE).edit();
