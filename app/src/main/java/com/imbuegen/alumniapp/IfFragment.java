@@ -1,15 +1,24 @@
 package com.imbuegen.alumniapp;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -34,10 +43,42 @@ public class IfFragment extends Fragment {
         screen1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editor.putString("goto","screen1");
-                editor.commit();
-                listener.onSwitchToNextFragment();
+                DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Applications");
+                final String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+
+                rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        for(DataSnapshot snap:snapshot.getChildren())
+                        {
+                            Log.d("NAME",snap.getKey());
+                        }
+                        if (snapshot.hasChild(user)) {
+                            editor.putString("goto","IfComp");
+                            editor.commit();
+                             listener.onSwitchToNextFragment();
+
+                        }
+                        else{
+                            editor.putString("goto","screen1");
+                            editor.commit();
+                            listener.onSwitchToNextFragment();
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
+
             }
+
         });
         screen2.setOnClickListener(new View.OnClickListener() {
             @Override
