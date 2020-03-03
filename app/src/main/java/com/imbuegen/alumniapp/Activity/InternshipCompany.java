@@ -98,56 +98,6 @@ public class InternshipCompany extends Fragment {
 return v;
     }
 
-   /* private ArrayList<InternshipCompanyModel> getInternshipCompanyList() throws InterruptedException {
-
-
-        databaseReference= FirebaseDatabase.getInstance().getReference().child("Companies");
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                if(dataSnapshot.exists())
-                {   internshipCompanyModels.clear();
-
-                    for(DataSnapshot companysnapshot:dataSnapshot.getChildren())
-                    {
-                      //  InternshipCompanyModel m =new InternshipCompanyModel();
-                    InternshipCompanyModel internshipCompanyModel=companysnapshot.getValue(InternshipCompanyModel.class);
-                    Log.d("NAME",internshipCompanyModel.getName());
-               //     m.setTitle(company.getName());
-                 //   m.setDescription(company.getDescription());
-                   // m.setLogo(R.drawable.ic_acm);
-
-                    internshipCompanyModels.add(internshipCompanyModel);
-                   }
-                }
-
-                else
-                {
-                    Log.d("NAME2","Broooooooooooooooooooooooo");
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        Log.d("NAME3","Broooooooooooooooooooooooo");
-     /*   InternshipCompanyModel m =new InternshipCompanyModel();
-     //   Log.d("NAME",company.getName());
-        m.setName("Google");
-        m.setDescription("HEY BABY");
-        m.setUrl(R.drawable.ic_acm);
-        internshipCompanyModels.add(m);
-
-        return internshipCompanyModels;
-
-    }
-*/
 }
 
 

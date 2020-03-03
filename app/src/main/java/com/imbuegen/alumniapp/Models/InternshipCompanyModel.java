@@ -2,17 +2,26 @@ package com.imbuegen.alumniapp.Models;
 
 public class InternshipCompanyModel {
 
-    private String skills,description,name,url;
+    private String skills,description,name,url,code;
 
     public InternshipCompanyModel(){
 
     }
 
-    public InternshipCompanyModel(String skills, String description, String name, String url) {
+    public InternshipCompanyModel(String skills, String description, String name, String url,String code) {
         this.skills = skills;
         this.description = description;
         this.name = name;
         this.url = url;
+        this.code=code;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public InternshipCompanyModel(String skills, String name) {

@@ -52,7 +52,7 @@ public class ApplicationForm extends Fragment implements OnItemSelectedListener 
     public String ap_name,ap_sap,ap_email,ap_dept;
     public TextView urll;
     public Uri url1,url2;
-    public int c=0;
+    public int red_c=0,blue_c=0,green_c=0,s=0;
     Set<String> hash_Set = new HashSet<String>();
     boolean flag=false;
     NestedFragmentListener listener;
@@ -77,11 +77,11 @@ public class ApplicationForm extends Fragment implements OnItemSelectedListener 
         Spinner dept=v.findViewById(R.id.departments);
 
 
-        hash_Set.add("tejasghone73@gmail.com");
-        hash_Set.add("rajshah@gmail.com");
-        hash_Set.add("Geeks");
-        hash_Set.add("Example");
-        hash_Set.add("Set");
+        hash_Set.add("60004180110");
+        hash_Set.add("60004180100");
+        hash_Set.add("60004180101");
+        hash_Set.add("60004180103");
+        hash_Set.add("60004180102");
 
         ArrayAdapter<CharSequence> adapter= ArrayAdapter.createFromResource(
                 getContext(),
@@ -166,10 +166,13 @@ return v;
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         progressDialog.dismiss();
-                        boolean f=hash_Set.contains(ap_email);
+                        boolean f=hash_Set.contains(ap_sap);
                         if(f)
-                        {c=3;}
-                        Applicant_Details details=new Applicant_Details(ap_name,ap_email,ap_dept,ap_year,ap_sap,0,c);
+                        {red_c=2;
+                         blue_c=2;
+                         green_c=1;
+                        }
+                        Applicant_Details details=new Applicant_Details(ap_name,ap_email,ap_dept,ap_year,ap_sap,0,red_c,green_c,blue_c,s);
                         String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         reference= FirebaseDatabase.getInstance().getReference().child("Applications");
                         reference.child(user).setValue(details);

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,20 +22,21 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.imbuegen.alumniapp.Models.InternshipCompanyModel;
 import com.imbuegen.alumniapp.NestedFragmentListener;
 import com.imbuegen.alumniapp.R;
 import com.squareup.picasso.Picasso;
 
 public class InternshipDetails extends Fragment {
 
-    TextView companyTitle,companyDesc;
+    TextView companyTitle,companyDesc,companySkills;
     ImageView companyImage;
-    Button applyBtn;
-    String name,sap,branch,yr;
-    int coun,amnt;
-    DatabaseReference databaseReference;
-    DatabaseReference databaseReference1,databaseReference2,databaseReference3;
+    Button applyBtn,submitBtn,backBtn;
 
+    String name,sap,branch,yr,code,mTitle,user2;
+    int amnt,r_count,g_count,b_count,saving;
+    DatabaseReference databaseReference;
+    DatabaseReference databaseReference1,databaseReference2,databaseReference3,databaseReference4,databaseReference5;
 
     NestedFragmentListener listener;
     SharedPreferences.Editor editor;
@@ -60,10 +62,17 @@ public class InternshipDetails extends Fragment {
 
         companyTitle=v.findViewById(R.id.company_title);
         companyDesc=v.findViewById(R.id.company_desc);
+        companySkills=v.findViewById(R.id.company_skill);
         companyImage=v.findViewById(R.id.logo);
         applyBtn = v.findViewById(R.id.apply_btn);
+        submitBtn=v.findViewById(R.id.submit_btn);
+        backBtn=v.findViewById(R.id.exit_btn);
 
+        applyBtn.setVisibility(View.VISIBLE);
+        submitBtn.setVisibility(View.INVISIBLE);
+        backBtn.setVisibility(View.INVISIBLE);
 
+         user2 = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         //ActionBar actionBar=getSupportActionBar();
 
@@ -71,14 +80,15 @@ public class InternshipDetails extends Fragment {
         //Intent intent=getIntent();
         shpref=getContext().getSharedPreferences("IntDet", Context.MODE_PRIVATE);
 
-        final String mTitle=shpref.getString("iTitle","");
-        String mDesc=shpref.getString("iDesc","");
+         mTitle=shpref.getString("iTitle","");
+        String mSkills=shpref.getString("iSkills","");
         String CompUrl=shpref.getString("iLogo","");
-        getActivity().setTitle(mTitle);
+        //getActivity().setTitle(mTitle);
         companyTitle.setText(mTitle);
-        companyDesc.setText(mDesc);
+        companySkills.setText(mSkills);
         Picasso.get().load(CompUrl).into(companyImage);
         String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        databaseReference4=FirebaseDatabase.getInstance().getReference("Companies").child(mTitle);
         databaseReference1=FirebaseDatabase.getInstance().getReference("Applications").child(user);
         databaseReference1.addValueEventListener(new ValueEventListener() {
             @Override
@@ -87,8 +97,12 @@ public class InternshipDetails extends Fragment {
                 sap=dataSnapshot.child("sap").getValue().toString();
                 branch=dataSnapshot.child("department").getValue().toString();
                 yr=dataSnapshot.child("year").getValue().toString();
-                coun=Integer.parseInt(dataSnapshot.child("count").getValue().toString());
+                r_count=Integer.parseInt(dataSnapshot.child("r_count").getValue().toString());
+                b_count=Integer.parseInt(dataSnapshot.child("b_count").getValue().toString());
+                g_count=Integer.parseInt(dataSnapshot.child("g_count").getValue().toString());
                 amnt=Integer.parseInt(dataSnapshot.child("amount").getValue().toString());
+                saving=Integer.parseInt(dataSnapshot.child("saving").getValue().toString());
+
             }
 
             @Override
@@ -96,52 +110,127 @@ public class InternshipDetails extends Fragment {
 
             }
         });
+
+        databaseReference4.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                InternshipCompanyModel internshipCompanyModel=dataSnapshot.getValue(InternshipCompanyModel.class);
+                companyDesc.setText(internshipCompanyModel.getDescription());
+                code=internshipCompanyModel.getCode().toString();
+                if(code.equals("Red"))
+                {Log.d("CODEEEEEEEEEEE",code);}
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+
+            }
+        });
         databaseReference2=FirebaseDatabase.getInstance().getReference();
         databaseReference3=FirebaseDatabase.getInstance().getReference();
         databaseReference=FirebaseDatabase.getInstance().getReference();
 
-
         applyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//<<<<<<< HEAD
-                String user2 = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                if(coun==0)
-                {
-                    databaseReference3.child("Applications").child(user2).child("amount").setValue(amnt+100);
-                    databaseReference2.child("Applied_To").child(user2).child(mTitle).child("name").setValue(mTitle);
-                    databaseReference2.child("Applied_To").child(user2).child(mTitle).child("skills").setValue(mTitle);
-                    databaseReference.child("APC").child(mTitle).child(sap).child("name").setValue(name);
-                    databaseReference.child("APC").child(mTitle).child(sap).child("sap").setValue(sap);
-                    databaseReference.child("APC").child(mTitle).child(sap).child("dept").setValue(branch);
-                    databaseReference.child("APC").child(mTitle).child(sap).child("year").setValue(yr);
-                }
-                else{
-                    databaseReference2.child("Applied_To").child(user2).child(mTitle).child("name").setValue(mTitle);
-                    databaseReference2.child("Applied_To").child(user2).child(mTitle).child("skills").setValue(mTitle);
-                    databaseReference3.child("Applications").child(user2).child("count").setValue(coun-1);
-                    databaseReference.child("APC").child(mTitle).child(sap).child("name").setValue(name);
-                    databaseReference.child("APC").child(mTitle).child(sap).child("sap").setValue(sap);
-                    databaseReference.child("APC").child(mTitle).child(sap).child("dept").setValue(branch);
-                    databaseReference.child("APC").child(mTitle).child(sap).child("year").setValue(yr);
 
-                }
-//=======
-//                databaseReference= FirebaseDatabase.getInstance().getReference();
-//                Application_Details application_details;
-//               // application_details=
-//>>>>>>> 7f314d941a6338c5387ec60e3e78c7ade6107213
-                Toast.makeText(getContext(),"Applied Successfully",Toast.LENGTH_SHORT).show();
+                applyBtn.setVisibility(View.INVISIBLE);
+                backBtn.setVisibility(View.VISIBLE);
+                submitBtn.setVisibility(View.VISIBLE);
             }
         });
 
-//<<<<<<< HEAD
-//=======
-//        actionBar.setTitle(mTitle);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                submitBtn.setVisibility(View.INVISIBLE);
+                applyBtn.setVisibility(View.VISIBLE);
+                backBtn.setVisibility(View.INVISIBLE);
+
+            }
+        });
+
+
+
+
+        submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(code.equals("Red") && r_count==0)
+                {
+                    databaseReference3.child("Applications").child(user2).child("amount").setValue(amnt+100);
+                    addCompanyToUser();
+                    addUSerToCompany();
+                }
+                if(code.equals("Red") && r_count!=0){
+
+                    databaseReference3.child("Applications").child(user2).child("r_count").setValue(r_count-1);
+                    databaseReference3.child("Applications").child(user2).child("saving").setValue(saving+100);
+                    addUSerToCompany();
+                    addCompanyToUser();
+
+                }
+                if(code.equals("Blue") && b_count==0)
+                {
+                    databaseReference3.child("Applications").child(user2).child("amount").setValue(amnt+100);
+                    addCompanyToUser();
+                    addUSerToCompany();
+                }
+                if(code.equals("Blue") && b_count!=0){
+
+                    databaseReference3.child("Applications").child(user2).child("b_count").setValue(b_count-1);
+                    databaseReference3.child("Applications").child(user2).child("saving").setValue(saving+100);
+                    addUSerToCompany();
+                    addCompanyToUser();
+
+                }
+                if(code.equals("Green") && g_count==0)
+                {
+                    databaseReference3.child("Applications").child(user2).child("amount").setValue(amnt+100);
+                    addCompanyToUser();
+                    addUSerToCompany();
+                }
+                if(code.equals("Green") && g_count!=0){
+
+                    databaseReference3.child("Applications").child(user2).child("g_count").setValue(g_count-1);
+                    databaseReference3.child("Applications").child(user2).child("saving").setValue(saving+100);
+                    addUSerToCompany();
+                    addCompanyToUser();
+
+                }
+
+//                databaseReference= FirebaseDatabase.getInstance().getReference();
+//                Application_Details application_details;
+//               // application_details=
+                Toast.makeText(getContext(),"Applied Successfully",Toast.LENGTH_SHORT).show();
+                submitBtn.setVisibility(View.INVISIBLE);
+                applyBtn.setVisibility(View.INVISIBLE);
+                backBtn.setVisibility(View.INVISIBLE);
+            }
+        });
+
+
+
+
+        //      actionBar.setTitle(mTitle);
 //        companyTitle.setText(mTitle);
 //        companyDesc.setText(mDesc);
-//
-//>>>>>>> 7f314d941a6338c5387ec60e3e78c7ade6107213
-return v;
+        return v;
     }
+    public void addUSerToCompany(){
+        databaseReference.child("APC").child(mTitle).child(sap).child("name").setValue(name);
+        databaseReference.child("APC").child(mTitle).child(sap).child("sap").setValue(sap);
+        databaseReference.child("APC").child(mTitle).child(sap).child("dept").setValue(branch);
+        databaseReference.child("APC").child(mTitle).child(sap).child("year").setValue(yr);
+    }
+    public void addCompanyToUser(){
+        databaseReference2.child("Applied_To").child(user2).child(mTitle).child("name").setValue(mTitle);
+        databaseReference2.child("Applied_To").child(user2).child(mTitle).child("skills").setValue(mTitle);
+    }
+
+
 }
