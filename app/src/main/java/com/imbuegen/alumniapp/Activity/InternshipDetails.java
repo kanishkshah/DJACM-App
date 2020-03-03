@@ -21,20 +21,21 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.imbuegen.alumniapp.Models.InternshipCompanyModel;
 import com.imbuegen.alumniapp.NestedFragmentListener;
 import com.imbuegen.alumniapp.R;
 import com.squareup.picasso.Picasso;
 
 public class InternshipDetails extends Fragment {
 
-    TextView companyTitle,companyDesc;
+    TextView companyTitle,companyDesc,companySkills;
     ImageView companyImage;
-    Button applyBtn;
+    Button applyBtn,submitBtn,backBtn;
+
     String name,sap,branch,yr;
     int coun,amnt;
     DatabaseReference databaseReference;
-    DatabaseReference databaseReference1,databaseReference2,databaseReference3;
-
+    DatabaseReference databaseReference1,databaseReference2,databaseReference3,databaseReference4;
 
     NestedFragmentListener listener;
     SharedPreferences.Editor editor;
@@ -60,9 +61,15 @@ public class InternshipDetails extends Fragment {
 
         companyTitle=v.findViewById(R.id.company_title);
         companyDesc=v.findViewById(R.id.company_desc);
+        companySkills=v.findViewById(R.id.company_skill);
         companyImage=v.findViewById(R.id.logo);
         applyBtn = v.findViewById(R.id.apply_btn);
+        submitBtn=v.findViewById(R.id.submit_btn);
+        backBtn=v.findViewById(R.id.exit_btn);
 
+        applyBtn.setVisibility(View.VISIBLE);
+        submitBtn.setVisibility(View.INVISIBLE);
+        backBtn.setVisibility(View.INVISIBLE);
 
 
         //ActionBar actionBar=getSupportActionBar();
@@ -72,13 +79,14 @@ public class InternshipDetails extends Fragment {
         shpref=getContext().getSharedPreferences("IntDet", Context.MODE_PRIVATE);
 
         final String mTitle=shpref.getString("iTitle","");
-        String mDesc=shpref.getString("iDesc","");
+        String mSkills=shpref.getString("iSkills","");
         String CompUrl=shpref.getString("iLogo","");
-        getActivity().setTitle(mTitle);
+        //getActivity().setTitle(mTitle);
         companyTitle.setText(mTitle);
-        companyDesc.setText(mDesc);
+        companySkills.setText(mSkills);
         Picasso.get().load(CompUrl).into(companyImage);
         String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        databaseReference4=FirebaseDatabase.getInstance().getReference("Companies").child(mTitle);
         databaseReference1=FirebaseDatabase.getInstance().getReference("Applications").child(user);
         databaseReference1.addValueEventListener(new ValueEventListener() {
             @Override
@@ -96,15 +104,53 @@ public class InternshipDetails extends Fragment {
 
             }
         });
+
+        databaseReference4.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                InternshipCompanyModel internshipCompanyModel=dataSnapshot.getValue(InternshipCompanyModel.class);
+                companyDesc.setText(internshipCompanyModel.getDescription());
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+
+            }
+        });
         databaseReference2=FirebaseDatabase.getInstance().getReference();
         databaseReference3=FirebaseDatabase.getInstance().getReference();
         databaseReference=FirebaseDatabase.getInstance().getReference();
 
-
         applyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//<<<<<<< HEAD
+
+                applyBtn.setVisibility(View.INVISIBLE);
+                backBtn.setVisibility(View.VISIBLE);
+                submitBtn.setVisibility(View.VISIBLE);
+            }
+        });
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                submitBtn.setVisibility(View.INVISIBLE);
+                applyBtn.setVisibility(View.VISIBLE);
+                backBtn.setVisibility(View.INVISIBLE);
+
+            }
+        });
+
+
+
+
+        submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
                 String user2 = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 if(coun==0)
                 {
@@ -126,22 +172,20 @@ public class InternshipDetails extends Fragment {
                     databaseReference.child("APC").child(mTitle).child(sap).child("year").setValue(yr);
 
                 }
-//=======
+
 //                databaseReference= FirebaseDatabase.getInstance().getReference();
 //                Application_Details application_details;
 //               // application_details=
-//>>>>>>> 7f314d941a6338c5387ec60e3e78c7ade6107213
                 Toast.makeText(getContext(),"Applied Successfully",Toast.LENGTH_SHORT).show();
+                submitBtn.setVisibility(View.INVISIBLE);
+                applyBtn.setVisibility(View.INVISIBLE);
+                backBtn.setVisibility(View.INVISIBLE);
             }
         });
 
-//<<<<<<< HEAD
-//=======
-//        actionBar.setTitle(mTitle);
+        //      actionBar.setTitle(mTitle);
 //        companyTitle.setText(mTitle);
 //        companyDesc.setText(mDesc);
-//
-//>>>>>>> 7f314d941a6338c5387ec60e3e78c7ade6107213
-return v;
+        return v;
     }
 }
