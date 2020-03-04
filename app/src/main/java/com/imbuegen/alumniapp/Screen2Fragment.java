@@ -89,7 +89,7 @@ public class Screen2Fragment extends Fragment {
                     //If company_list is an array, this gave a syntax error
                     company_list=company1_list.getValue(InternshipCompanyModel.class);
                     //Toast.makeText(getContext(), company_list.getName(), Toast.LENGTH_SHORT).show();
-                    companies.addView(generateTextView("1. "));
+                    companies.addView(generateTextView((i+". ")));
                     populateUI(companies, 1, null);
                     i++;
                 }
