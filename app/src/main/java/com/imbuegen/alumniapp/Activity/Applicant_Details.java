@@ -7,9 +7,9 @@ public class Applicant_Details {
     private String name, email, department, year,sap;
     private int amount,r_count,g_count,b_count,saving;
 
-//    public Applicant_Details() {
-//
-//    }
+    public Applicant_Details() {
+
+    }
 
     public Applicant_Details(String name, String email, String department, String year, String sap, int amount, int r_count, int g_count, int b_count, int saving) {
         this.name = name;
