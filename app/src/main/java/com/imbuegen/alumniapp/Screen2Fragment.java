@@ -66,7 +66,13 @@ public class Screen2Fragment extends Fragment {
                 // Get Post object and use the values to update the UI
                 details = dataSnapshot.getValue(Applicant_Details.class);
                 //Toast.makeText(getContext(), details.getName(), Toast.LENGTH_SHORT).show();
-                populateUI(gridLayout,0,total_Price);
+                if(details!=null) {
+                    populateUI(gridLayout, 0, total_Price);
+                }
+                else{
+                    Toast.makeText(getContext(), "Please fill in details first", Toast.LENGTH_SHORT).show();
+                    //TODO goto Form
+                }
                 // ...
             }
 
@@ -85,14 +91,23 @@ public class Screen2Fragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get Post object and use the values to update the UI
                 int i=1;
+
                 for(DataSnapshot company1_list:dataSnapshot.getChildren()) {
+
                     //If company_list is an array, this gave a syntax error
                     company_list=company1_list.getValue(InternshipCompanyModel.class);
+                    if(company_list!=null)
+                    {
                     //Toast.makeText(getContext(), company_list.getName(), Toast.LENGTH_SHORT).show();
                     companies.addView(generateTextView((i+". ")));
                     populateUI(companies, 1, null);
-                    i++;
+                    i++;}
+                    else{
+                        Toast.makeText(getContext(), "Please fill in details first", Toast.LENGTH_SHORT).show();
+                        //TODO goto Form
+                    }
                 }
+
                 // ...
             }
 
