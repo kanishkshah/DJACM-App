@@ -168,9 +168,9 @@ return v;
                         progressDialog.dismiss();
                         boolean f=hash_Set.contains(ap_sap);
                         if(f)
-                        {red_c=2;
+                        {red_c=1;
                          blue_c=2;
-                         green_c=1;
+                         green_c=2;
                         }
                         Applicant_Details details=new Applicant_Details(ap_name,ap_email,ap_dept,ap_year,ap_sap,0,red_c,green_c,blue_c,s);
                         String user = FirebaseAuth.getInstance().getCurrentUser().getUid();

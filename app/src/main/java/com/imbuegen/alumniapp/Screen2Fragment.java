@@ -151,6 +151,22 @@ public class Screen2Fragment extends Fragment {
             gridLayout.addView(generateTextView(details.getEmail()));
             gridLayout.addView(generateTextView("Department : "));
             gridLayout.addView(generateTextView(details.getDepartment()));
+
+            if(details.getSaving()!=0) {
+                Price.addView(generateTextView("Discount Red:"));
+                Price.addView(generateTextView(String.valueOf((1 - details.getR_count()) * 100)));
+                Price.addView(generateTextView("Discount Green:"));
+                Price.addView(generateTextView(String.valueOf((2 - details.getG_count()) * 100)));
+                Price.addView(generateTextView("Discount Blue:"));
+                Price.addView(generateTextView(String.valueOf((2 - details.getB_count()) * 100)));
+                Price.addView(generateTextView("Total Savings:"));
+                Price.addView(generateTextView(String.valueOf(details.getSaving())));
+            }
+            else
+            {
+                Price.addView(generateTextView("Not saving anything"));
+                Price.addView(generateTextView(""));
+            }
             Price.addView(generateTextView("Total Price : "));
             Price.addView(generateTextView(String.valueOf(details.getAmount())));
         }
@@ -159,6 +175,7 @@ public class Screen2Fragment extends Fragment {
 
             gridLayout.addView(generateTextView(company_list.getName()));
             gridLayout.addView(generateTextView(company_list.getSkills()));
+            gridLayout.addView(generateTextView("100"));
         }
 
     }
