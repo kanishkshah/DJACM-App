@@ -24,13 +24,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.imbuegen.alumniapp.Activity.Applicant_Details;
+import com.imbuegen.alumniapp.Activity.Applicant_details_copy;
 import com.imbuegen.alumniapp.Models.InternshipCompanyModel;
 
 public class Screen2Fragment extends Fragment {
     NestedFragmentListener listener;
     SharedPreferences.Editor editor;
     private DatabaseReference mDatabase;
-    Applicant_Details details;
+    Applicant_details_copy details;
     //List<Company> company_list;
     //DataSnapshot company1_list;
     InternshipCompanyModel company_list;
@@ -64,7 +65,7 @@ public class Screen2Fragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get Post object and use the values to update the UI
-                details = dataSnapshot.getValue(Applicant_Details.class);
+                details = dataSnapshot.getValue(Applicant_details_copy.class);
                 //Toast.makeText(getContext(), details.getName(), Toast.LENGTH_SHORT).show();
                 if(details!=null) {
                     populateUI(gridLayout, 0, total_Price);

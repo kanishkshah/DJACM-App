@@ -1,17 +1,14 @@
 package com.imbuegen.alumniapp.Activity;
 
-import android.net.Uri;
-
-public class Applicant_Details {
-
+public class Applicant_details_copy {
     private String name, email, department, year,sap;
     private int amount,r_count,g_count,b_count,saving;
 
-//    public Applicant_Details() {
-//
-//    }
+    public Applicant_details_copy() {
 
-    public Applicant_Details(String name, String email, String department, String year, String sap, int amount, int r_count, int g_count, int b_count, int saving) {
+    }
+
+    public Applicant_details_copy(String name, String email, String department, String year, String sap, int amount, int r_count, int g_count, int b_count, int saving) {
         this.name = name;
         this.email = email;
         this.department = department;
@@ -105,4 +102,5 @@ public class Applicant_Details {
         return saving;
     }
 }
+
 
