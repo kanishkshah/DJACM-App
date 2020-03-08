@@ -35,6 +35,20 @@ public class Screen2Fragment extends Fragment {
     //List<Company> company_list;
     //DataSnapshot company1_list;
     InternshipCompanyModel company_list;
+    View v;
+
+   // @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        super.setUserVisibleHint(isVisibleToUser);
+//        if(isVisibleToUser)
+//                {editor=getActivity().getSharedPreferences("SwitchTo", Context.MODE_PRIVATE).edit();
+//                    editor.putString("goto","screen2");
+//                    editor.commit();
+//
+//                    listener.onSwitchToNextFragment();
+//
+//                }
+//    }
 
     public void backPressed() {
         editor=getContext().getSharedPreferences("SwitchTo", Context.MODE_PRIVATE).edit();
@@ -52,18 +66,17 @@ public class Screen2Fragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d("Screen2Fragment","Screen2 opened");
-        View v=inflater.inflate(R.layout.receipt,null);
+        v=inflater.inflate(R.layout.receipt,null);
         final GridLayout gridLayout=v.findViewById(R.id.student_details);
         final GridLayout companies=v.findViewById(R.id.receipt_companies);
         final GridLayout total_Price=v.findViewById(R.id.reciept_Price);
         String currentuser = FirebaseAuth.getInstance().getCurrentUser().getUid();
         //Toast.makeText(getContext(), currentuser, Toast.LENGTH_SHORT).show();
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        Query query=mDatabase.child("Applications").child(currentuser);
-        ValueEventListener postListener = new ValueEventListener() {
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Applications").child(currentuser);
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // Get Post object and use the values to update the UI
                 details = dataSnapshot.getValue(Applicant_details_copy.class);
                 //Toast.makeText(getContext(), details.getName(), Toast.LENGTH_SHORT).show();
@@ -78,19 +91,14 @@ public class Screen2Fragment extends Fragment {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
-                // ...
-            }
-        };
-        query.addValueEventListener(postListener);
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-        Query query1=mDatabase.child("Applied_To").child(currentuser);
-        ValueEventListener postListener1 = new ValueEventListener() {
+            }
+        });
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Applied_To").child(currentuser);
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // Get Post object and use the values to update the UI
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int i=1;
 
                 for(DataSnapshot company1_list:dataSnapshot.getChildren()) {
@@ -113,13 +121,71 @@ public class Screen2Fragment extends Fragment {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
-                // ...
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
-        };
-        query1.addValueEventListener(postListener1);
+        });
+        //        Query query=mDatabase.child("Applications").child(currentuser);
+//
+//        ValueEventListener postListener = new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                // Get Post object and use the values to update the UI
+//                details = dataSnapshot.getValue(Applicant_Details.class);
+//                //Toast.makeText(getContext(), details.getName(), Toast.LENGTH_SHORT).show();
+//                if(details!=null) {
+//                    populateUI(gridLayout, 0, total_Price);
+//                }
+//                else{
+//                    Toast.makeText(getContext(), "Please fill in details first", Toast.LENGTH_SHORT).show();
+//                    //TODO goto Form
+//                }
+//                // ...
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                // Getting Post failed, log a message
+//                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+//                // ...
+//            }
+//        };
+//        query.addValueEventListener(postListener);
+
+//        Query query1=mDatabase.child("Applied_To").child(currentuser);
+//        ValueEventListener postListener1 = new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                // Get Post object and use the values to update the UI
+//                int i=1;
+//
+//                for(DataSnapshot company1_list:dataSnapshot.getChildren()) {
+//
+//                    //If company_list is an array, this gave a syntax error
+//                    company_list=company1_list.getValue(InternshipCompanyModel.class);
+//                    if(company_list!=null)
+//                    {
+//                    //Toast.makeText(getContext(), company_list.getName(), Toast.LENGTH_SHORT).show();
+//                    companies.addView(generateTextView((i+". ")));
+//                    populateUI(companies, 1, null);
+//                    i++;}
+//                    else{
+//                        Toast.makeText(getContext(), "Please fill in details first", Toast.LENGTH_SHORT).show();
+//                        //TODO goto Form
+//                    }
+//                }
+//
+//                // ...
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                // Getting Post failed, log a message
+//                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+//                // ...
+//            }
+//        };
+//        query1.addValueEventListener(postListener1);
         // TODO The above line keeps crashing the app
 
         //gridLayout.addView(generateTextView("Blah"));
@@ -131,7 +197,7 @@ public class Screen2Fragment extends Fragment {
     }
     public TextView generateTextView(String s)
     {
-        TextView t=new TextView(getContext());
+        TextView t=new TextView(v.getContext());
         t.setText(s);
         int padding_in_dp = 8;  // 8 dps
         final float scale = getResources().getDisplayMetrics().density;

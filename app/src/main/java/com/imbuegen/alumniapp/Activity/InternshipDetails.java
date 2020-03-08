@@ -117,7 +117,7 @@ public class InternshipDetails extends Fragment {
 
                 InternshipCompanyModel internshipCompanyModel=dataSnapshot.getValue(InternshipCompanyModel.class);
                 companyDesc.setText(internshipCompanyModel.getDescription());
-                code=internshipCompanyModel.getCode().toString();
+                code=internshipCompanyModel.getCode();
                 if(code.equals("Red"))
                 {Log.d("CODEEEEEEEEEEE",code);}
 

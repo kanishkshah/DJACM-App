@@ -120,6 +120,10 @@ public void setActivity(Activity a) {
                 ((InternshipDetails) adapter.getItem(3)).backPressed();
 
             }
+            else if (adapter.getItem(3) instanceof Screen1Fragment ){
+                ((Screen1Fragment) adapter.getItem(3)).backPressed();
+
+            }
             else if (adapter.getItem(3) instanceof IfFragment) {
                 finish();
 

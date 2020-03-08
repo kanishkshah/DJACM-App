@@ -37,11 +37,12 @@ public class InternshipCompany extends Fragment {
     DatabaseReference databaseReference;
     NestedFragmentListener listener;
     SharedPreferences.Editor editor;
-
+String code;
     public InternshipCompany(){}
     @SuppressLint("ValidFragment")
-    public InternshipCompany(NestedFragmentListener listener){
+    public InternshipCompany(NestedFragmentListener listener,String code){
     this.listener=listener;
+    this.code=code;
     }
 
     public void backPressed() {
@@ -55,7 +56,6 @@ public class InternshipCompany extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.activity_internship_company,null);
-
         mRecyclerView=v.findViewById(R.id.internship_recyclerView);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -77,7 +77,7 @@ public class InternshipCompany extends Fragment {
                      internshipCompanyModels.add(internshipCompanyModel);
                  }
 
-                 internshipCompanyAdapter=new InternshipCompanyAdapter(getContext() ,internshipCompanyModels,listener);
+                 internshipCompanyAdapter=new InternshipCompanyAdapter(getContext() ,internshipCompanyModels,listener,code);
                  mRecyclerView.setAdapter(internshipCompanyAdapter);
              }
 
