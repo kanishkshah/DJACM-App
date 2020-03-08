@@ -57,6 +57,7 @@ public class ApplicationForm extends Fragment implements OnItemSelectedListener 
     boolean flag=false;
     NestedFragmentListener listener;
     SharedPreferences.Editor editor;
+    ACMmembers member_list;
     public void backPressed() {
         editor=getContext().getSharedPreferences("SwitchTo", Context.MODE_PRIVATE).edit();
         editor.putString("goto","IF");
@@ -76,12 +77,13 @@ public class ApplicationForm extends Fragment implements OnItemSelectedListener 
         Spinner year=v.findViewById(R.id.Appli_Year);
         Spinner dept=v.findViewById(R.id.departments);
 
-
-        hash_Set.add("60004180110");
-        hash_Set.add("60004180100");
-        hash_Set.add("60004180101");
-        hash_Set.add("60004180103");
-        hash_Set.add("60004180102");
+        member_list=new ACMmembers();
+        hash_Set=member_list.getAcmemails();
+//        hash_Set.add("60004180110");
+//        hash_Set.add("60004180100");
+//        hash_Set.add("60004180101");
+//        hash_Set.add("60004180103");
+//        hash_Set.add("60004180102");
 
         ArrayAdapter<CharSequence> adapter= ArrayAdapter.createFromResource(
                 getContext(),
@@ -166,7 +168,7 @@ return v;
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         progressDialog.dismiss();
-                        boolean f=hash_Set.contains(ap_sap);
+                        boolean f=hash_Set.contains(ap_email);
                         if(f)
                         {red_c=1;
                          blue_c=2;
