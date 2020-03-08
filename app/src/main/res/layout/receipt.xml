@@ -25,7 +25,7 @@
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:columnCount="3"
+            android:columnCount="4"
             android:rowCount="4"
             android:id="@+id/receipt_companies"
             android:layout_below="@+id/student_details"
@@ -34,8 +34,8 @@
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:columnCount="3"
-            android:rowCount="4"
+            android:columnCount="2"
+            android:rowCount="5"
             android:id="@+id/reciept_Price"
             android:layout_below="@+id/receipt_companies"
             >
