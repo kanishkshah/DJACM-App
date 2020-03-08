@@ -79,6 +79,7 @@ public class StudentViewPagerAdaptor extends FragmentStatePagerAdapter {
                     fm.beginTransaction().remove(IF)
                             .commit();
                     IF = new ApplicationForm(listener);
+
                     break;
                 case "screen2":editor.clear().commit();
                     fm.beginTransaction().remove(IF)
@@ -93,7 +94,7 @@ public class StudentViewPagerAdaptor extends FragmentStatePagerAdapter {
                 case "IfComp":editor.clear().commit();
                     fm.beginTransaction().remove(IF)
                             .commit();
-                    IF = new InternshipCompany(listener);
+                    IF = new Screen1Fragment(listener);
                     break;
                 case "IntDet":editor.clear().commit();
                     fm.beginTransaction().remove(IF)
