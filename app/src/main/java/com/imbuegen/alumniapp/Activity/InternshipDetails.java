@@ -32,12 +32,12 @@ public class InternshipDetails extends Fragment {
     TextView companyTitle,companyDesc,companySkills;
     ImageView companyImage;
     Button applyBtn,submitBtn,backBtn;
-
+    Boolean has_applied;
     String name,sap,branch,yr,code,mTitle,user2;
     int amnt,r_count,g_count,b_count,saving;
     DatabaseReference databaseReference;
     DatabaseReference databaseReference1,databaseReference2,databaseReference3,databaseReference4,databaseReference5;
-
+    InternshipCompanyModel ICMcopy,companies[];
     NestedFragmentListener listener;
     SharedPreferences.Editor editor;
     SharedPreferences shpref;
@@ -75,8 +75,8 @@ public class InternshipDetails extends Fragment {
          user2 = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         //ActionBar actionBar=getSupportActionBar();
-
-
+        companies=new InternshipCompanyModel[20];
+        has_applied=false;
         //Intent intent=getIntent();
         shpref=getContext().getSharedPreferences("IntDet", Context.MODE_PRIVATE);
 
@@ -90,6 +90,7 @@ public class InternshipDetails extends Fragment {
         String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
         databaseReference4=FirebaseDatabase.getInstance().getReference("Companies").child(mTitle);
         databaseReference1=FirebaseDatabase.getInstance().getReference("Applications").child(user);
+        databaseReference5=FirebaseDatabase.getInstance().getReference("Applied_To").child(user);
         databaseReference1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -116,6 +117,7 @@ public class InternshipDetails extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 InternshipCompanyModel internshipCompanyModel=dataSnapshot.getValue(InternshipCompanyModel.class);
+                ICMcopy=internshipCompanyModel;
                 companyDesc.setText(internshipCompanyModel.getDescription());
                 code=internshipCompanyModel.getCode();
                 if(code.equals("Red"))
@@ -129,6 +131,25 @@ public class InternshipDetails extends Fragment {
 
             }
         });
+        databaseReference5.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int i=0;
+                for(DataSnapshot company_list:dataSnapshot.getChildren()) {
+                    InternshipCompanyModel company1_list=company_list.getValue(InternshipCompanyModel.class);
+                    companies[i]=company1_list;
+                    i++;
+
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         databaseReference2=FirebaseDatabase.getInstance().getReference();
         databaseReference3=FirebaseDatabase.getInstance().getReference();
         databaseReference=FirebaseDatabase.getInstance().getReference();
@@ -136,7 +157,7 @@ public class InternshipDetails extends Fragment {
         applyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Toast.makeText(getContext(),companies[0].getName()+"",Toast.LENGTH_SHORT).show();
                 applyBtn.setVisibility(View.INVISIBLE);
                 backBtn.setVisibility(View.VISIBLE);
                 submitBtn.setVisibility(View.VISIBLE);
@@ -159,57 +180,75 @@ public class InternshipDetails extends Fragment {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if(code.equals("Red") && r_count==0)
+                //Log.e("InternshipDetails",companies[0].getName());
+                //Log.e("InternshipDetails",ICMcopy.getName());
+                //int n=companies.length;
+                //Log.e("InternshipDetails",n+"");
+                int i=0;
+                while(companies[i]!=null)
                 {
-                    databaseReference3.child("Applications").child(user2).child("amount").setValue(amnt+100);
-                    addCompanyToUser();
-                    addUSerToCompany();
+                    Log.e("InternshipDetails",companies[i].getSkills());
+                    //Log.e("InternshipDetails",ICMcopy.getName());
+                    if(companies[i].getName().equals(ICMcopy.getName()))
+                    {
+                        has_applied=true;
+                        break;
+                    }
+                    i++;
                 }
-                if(code.equals("Red") && r_count!=0){
+                if(!(has_applied)){
+                    if (code.equals("Red") && r_count == 0) {
+                        databaseReference3.child("Applications").child(user2).child("amount").setValue(amnt + 100);
+                        addCompanyToUser();
+                        addUSerToCompany();
+                    }
+                    if (code.equals("Red") && r_count != 0) {
 
-                    databaseReference3.child("Applications").child(user2).child("r_count").setValue(r_count-1);
-                    databaseReference3.child("Applications").child(user2).child("saving").setValue(saving+100);
-                    addUSerToCompany();
-                    addCompanyToUser();
+                        databaseReference3.child("Applications").child(user2).child("r_count").setValue(r_count - 1);
+                        databaseReference3.child("Applications").child(user2).child("saving").setValue(saving + 100);
+                        addUSerToCompany();
+                        addCompanyToUser();
 
-                }
-                if(code.equals("Blue") && b_count==0)
-                {
-                    databaseReference3.child("Applications").child(user2).child("amount").setValue(amnt+100);
-                    addCompanyToUser();
-                    addUSerToCompany();
-                }
-                if(code.equals("Blue") && b_count!=0){
+                    }
+                    if (code.equals("Blue") && b_count == 0) {
+                        databaseReference3.child("Applications").child(user2).child("amount").setValue(amnt + 100);
+                        addCompanyToUser();
+                        addUSerToCompany();
+                    }
+                    if (code.equals("Blue") && b_count != 0) {
 
-                    databaseReference3.child("Applications").child(user2).child("b_count").setValue(b_count-1);
-                    databaseReference3.child("Applications").child(user2).child("saving").setValue(saving+100);
-                    addUSerToCompany();
-                    addCompanyToUser();
+                        databaseReference3.child("Applications").child(user2).child("b_count").setValue(b_count - 1);
+                        databaseReference3.child("Applications").child(user2).child("saving").setValue(saving + 100);
+                        addUSerToCompany();
+                        addCompanyToUser();
 
-                }
-                if(code.equals("Green") && g_count==0)
-                {
-                    databaseReference3.child("Applications").child(user2).child("amount").setValue(amnt+100);
-                    addCompanyToUser();
-                    addUSerToCompany();
-                }
-                if(code.equals("Green") && g_count!=0){
+                    }
+                    if (code.equals("Green") && g_count == 0) {
+                        databaseReference3.child("Applications").child(user2).child("amount").setValue(amnt + 100);
+                        addCompanyToUser();
+                        addUSerToCompany();
+                    }
+                    if (code.equals("Green") && g_count != 0) {
 
-                    databaseReference3.child("Applications").child(user2).child("g_count").setValue(g_count-1);
-                    databaseReference3.child("Applications").child(user2).child("saving").setValue(saving+100);
-                    addUSerToCompany();
-                    addCompanyToUser();
+                        databaseReference3.child("Applications").child(user2).child("g_count").setValue(g_count - 1);
+                        databaseReference3.child("Applications").child(user2).child("saving").setValue(saving + 100);
+                        addUSerToCompany();
+                        addCompanyToUser();
 
-                }
+                    }
 
 //                databaseReference= FirebaseDatabase.getInstance().getReference();
 //                Application_Details application_details;
 //               // application_details=
-                Toast.makeText(getContext(),"Applied Successfully",Toast.LENGTH_SHORT).show();
-                submitBtn.setVisibility(View.INVISIBLE);
-                applyBtn.setVisibility(View.INVISIBLE);
-                backBtn.setVisibility(View.INVISIBLE);
+                    Toast.makeText(getContext(), "Applied Successfully", Toast.LENGTH_SHORT).show();
+                    submitBtn.setVisibility(View.INVISIBLE);
+                    applyBtn.setVisibility(View.INVISIBLE);
+                    backBtn.setVisibility(View.INVISIBLE);
+                }
+                else
+                {
+                    Toast.makeText(getContext(),"Already Applied",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
