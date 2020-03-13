@@ -47,29 +47,31 @@ public class CommitteeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             //Inflating recycle view item layout
             View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.comittee_member_item, viewGroup, false);
             return new CommitteeViewHolder(itemView);
-        } else
+        }
+        if(i == TYPE_FOOTER)
         {
             View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.commitee_toggle_button, viewGroup, false);
             return new ButtonViewHolder(itemView);
         }
+        return null;
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull List<Object> payloads) {
-//        super.onBindViewHolder(holder, position, payloads);
-        CommitteeMember m = list.get(position);
-
-        ImageView iv = holder.itemView.findViewById(R.id.member_image);
-        TextView  nameTv = holder.itemView.findViewById(R.id.name_tv);
-        TextView  positionTv = holder.itemView.findViewById(R.id.position_tv);
-
-        if(m.getPhotoUrl() != null && !m.getPhotoUrl().isEmpty())
-            Picasso.get().load(m.getPhotoUrl()).into(iv);
-        else iv.setImageResource(m.getPhotoId());
-
-        nameTv.setText(m.getName());
-        positionTv.setText(m.getPosition());
-    }
+//    @Override
+//    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull List<Object> payloads) {
+////        super.onBindViewHolder(holder, position, payloads);
+//        CommitteeMember m = list.get(position);
+//
+//        ImageView iv = holder.itemView.findViewById(R.id.member_image);
+//        TextView  nameTv = holder.itemView.findViewById(R.id.name_tv);
+//        TextView  positionTv = holder.itemView.findViewById(R.id.position_tv);
+//
+//        if(m.getPhotoUrl() != null && !m.getPhotoUrl().isEmpty())
+//            Picasso.get().load(m.getPhotoUrl()).into(iv);
+//        else iv.setImageResource(m.getPhotoId());
+//
+//        nameTv.setText(m.getName());
+//        positionTv.setText(m.getPosition());
+//    }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int i) {
@@ -89,7 +91,7 @@ public class CommitteeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 positionTv.setText(m.getPosition());
             }catch(Exception e)
             {
-                e.printStackTrace();
+                Log.e("PLLLLLLZZZZZZZZZZZZ",""+holder.getItemViewType());
             }
         }
         if(holder instanceof ButtonViewHolder)
@@ -122,6 +124,11 @@ public class CommitteeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public ButtonViewHolder(@NonNull View itemView) {
             super(itemView);
             b=itemView.findViewById(R.id.toggle_committee);
+            Log.e("PLSSS WORKKK",""+b.getText());
+        }
+        public Button getB()
+        {
+            return b;
         }
     }
 }
